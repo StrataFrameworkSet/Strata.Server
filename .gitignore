@@ -1,0 +1,87 @@
+######################
+# Intellij
+######################
+.idea/**
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+
+######################
+# vscode
+######################
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+######################
+# Maven
+######################
+/log/**
+/target/**
+
+######################
+# Gradle
+######################
+.gradle/**
+!.gradle/
+!.gradle/wrapper/
+!.gradle/wrapper/gradle-wrapper.jar
+!.gradle/wrapper/gradle-wrapper.properties
+
+######################
+# Package Files
+######################
+*.jar
+!.gradle/wrapper/gradle-wrapper.jar
+*.war
+*.ear
+*.db
+
+######################
+# Windows
+######################
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+######################
+# Mac OSX
+######################
+.DS_Store
+.svn
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+######################
+# Directories
+######################
+/.build/**
+**/build/**
+
+
+######################
+# Logs
+######################
+*.log
+log/
+logs/
+APP_LOG_DIR_IS_UNDEFINED/
+
+######################
+# Others
+######################
+*.class
+*.*~
+*~
+.merge_file*
