@@ -1,0 +1,51 @@
+plugins {
+    id 'java-library'
+}
+
+sourceSets {
+    main.java.srcDirs = ['main/java']
+    main.resources.srcDirs = ['main/resources']
+    test.java.srcDirs = ['unused']
+    test.resources.srcDirs = ['unused']
+}
+
+apply plugin: 'maven-publish'
+
+group 'strata.server'
+version "$major$minor$patch"
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        StrataFoundationChronicle(MavenPublication) {
+            artifactId = 'strata-server-spring'
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+
+            repositories {
+                maven {
+                    name "GitHubPackages"
+                    url "https://maven.pkg.github.com/StrataFrameworkSet/repository"
+                    credentials {
+                        username = "$System.env.GITHUB_USER"
+                        password = "$System.env.GITHUB_PASSWORD"
+                    }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    api project(":Components:Strata.Server.Core")
+    api "strata.foundation:strata-foundation-spring:$version"
+    api "org.springframework.boot:spring-boot-starter-web:$springboot_version"
+    api "org.springframework.boot:spring-boot-starter-webflux:$springboot_version"
+    api "org.springframework.boot:spring-boot-starter-data-jpa:$springboot_version"
+}

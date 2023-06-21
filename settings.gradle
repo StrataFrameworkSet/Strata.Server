@@ -33,14 +33,16 @@ rootProject.name = 'Strata.Server'
 
 // Components
 include 'Components:Strata.Server.Core'
-include 'Components:Strata.Foundation.Spring'
-include 'Components:Strata.Foundation.Reactor'
-include 'Components:Strata.Foundation.Helidon'
+include 'Components:Strata.Server.Spring'
+include 'Components:Strata.Server.Reactor'
+include 'Components:Strata.Server.Helidon'
 
 // Tests
-include 'Tests:Strata.Foundation.CoreTest'
-include 'Tests:Strata.Foundation.SpringTest'
-include 'Tests:Strata.Foundation.ReactorTest'
-include 'Tests:Strata.Foundation.HelidonTest'
-include 'Tests:Strata.Foundation.TestSuite'
+include 'Tests:Strata.Server.CoreTest'
+include 'Tests:Strata.Server.SpringTest'
+include 'Tests:Strata.Server.ReactorTest'
+include 'Tests:Strata.Server.HelidonTest'
+include 'Tests:Strata.Server.TestSuite'
+
+
 
