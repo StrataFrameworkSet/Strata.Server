@@ -10,6 +10,8 @@ on:
 
 env:
   PROPERTIES_ENCRYPTION_KEY: ${{secrets.PROPERTIES_ENCRYPTION_KEY}}
+  REPOSITORY_PASSWORD: ${{secrets.REPOSITORY_PASSWORD}}
+  REPOSITORY_USER: ${{variables.REPOSITORY_USER}}
 
 jobs:
   run-commit-stage:
