@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+    xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="1.0"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+    <description>Foo entity mappings</description>
+    <entity class="strata.server.core.entity.IFoo" access="PROPERTY">
+        <table name="Foo"/>
+        <inheritance strategy="SINGLE_TABLE"/>
+        <discriminator-value>IFoo</discriminator-value>
+        <discriminator-column name="typeName"/>
+        <attributes>
+            <id name="primaryId">
+                <column name="fooId"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <basic name="created">
+                <column name="created"/>
+            </basic>
+            <basic name="lastModified">
+                <column name="lastModified"/>
+            </basic>
+            <basic name="name">
+                <column name="name"/>
+            </basic>
+            <version name="version">
+                <column name="version"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="strata.server.core.entity.Foo" access="PROPERTY">
+        <discriminator-value>Foo</discriminator-value>
+        <attributes>
+            <id name="primaryId">
+                <column name="fooId"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
+        </attributes>
+    </entity>
+</entity-mappings>

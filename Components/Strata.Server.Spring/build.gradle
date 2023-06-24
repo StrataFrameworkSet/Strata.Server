@@ -48,4 +48,7 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-web:$springboot_version"
     api "org.springframework.boot:spring-boot-starter-webflux:$springboot_version"
     api "org.springframework.boot:spring-boot-starter-data-jpa:$springboot_version"
+    api 'org.springframework.guice:spring-guice:2.0.3'
+    api 'jakarta.inject:jakarta.inject-api:2.0.1'
+
 }

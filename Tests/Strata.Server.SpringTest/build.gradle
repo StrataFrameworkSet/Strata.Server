@@ -14,11 +14,13 @@ version '1.0-SNAPSHOT'
 
 dependencies {
     testImplementation project(':Components:Strata.Server.Spring')
+    testImplementation(testFixtures(project(':Tests:Strata.Server.CoreTest')))
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
-    testImplementation(testFixtures(project(':Tests:Strata.Server.CoreTest')))
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+    testImplementation 'com.h2database:h2:2.1.214'
+
 }
 
 test {

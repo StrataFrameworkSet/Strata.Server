@@ -1,19 +1,13 @@
 //////////////////////////////////////////////////////////////////////////////
-// IFooRepository.java
+// IRepositoryProvider.java
 //////////////////////////////////////////////////////////////////////////////
 
-package strata.server.core.repository;
+package strata.server.spring.repository;
 
-import strata.server.core.entity.IFoo;
-
-import java.util.Optional;
+import com.google.inject.Provider;
 
 public
-interface IFooRepository
-    extends IRepository<Long,IFoo>
-{
-    Optional<IFoo>
-    findByName(String name);
-}
+interface IRepositoryProvider<R>
+    extends Provider<R> {}
 
 //////////////////////////////////////////////////////////////////////////////

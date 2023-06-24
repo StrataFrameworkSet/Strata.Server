@@ -31,13 +31,10 @@ interface IRepository<K,E>
     findAllById(Iterable<K> primaryIds);
 
     Stream<E>
-    findAllByIdThenStream(Iterable<K> primaryIds);
+    findAllByIdAndStream(Iterable<K> primaryIds);
 
     boolean
     existsById(K primaryId);
-
-    Map<K,Boolean>
-    existsAllById(Iterable<K> primaryIds);
 }
 
 //////////////////////////////////////////////////////////////////////////////

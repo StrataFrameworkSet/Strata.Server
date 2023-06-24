@@ -4,11 +4,11 @@
 
 package strata.server.spring.repository;
 
-import strata.server.core.entity.Foo;
+import strata.server.core.entity.IFoo;
 import strata.server.core.repository.IFooRepository;
 
 public
 interface ISpringFooRepository
-    extends IFooRepository,ISpringRepository<Long,Foo> {}
+    extends IFooRepository,ISpringRepository<Long,IFoo> {}
 
 //////////////////////////////////////////////////////////////////////////////
