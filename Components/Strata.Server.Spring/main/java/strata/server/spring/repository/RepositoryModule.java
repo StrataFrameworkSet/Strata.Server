@@ -4,23 +4,41 @@
 
 package strata.server.spring.repository;
 
+import com.google.inject.internal.SingletonScope;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.core.inject.AbstractModule;
+import strata.server.core.unitofwork.IUnitOfWork;
+import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
+import strata.server.spring.unitofwork.JpaUnitOfWorkProvider;
+import strata.server.spring.unitofwork.SpringUnitOfWorkSynchronizationManager;
 
 public
 class RepositoryModule
     extends AbstractModule
 {
+
     @Override
     protected void
     configure()
     {
+        requireBinding(IConfiguration.class);
+
+        bind(LocalContainerEntityManagerFactoryBean.class)
+            .toProvider(LocalContainerEntityManagerFactoryBeanProvider.class)
+            .in(new SingletonScope());
+
         bind(EntityManagerFactory.class)
             .toProvider(EntityManagerFactoryProvider.class)
-            .in(getDefaultScope());
+            .in(new SingletonScope());
+
+        bind(PlatformTransactionManager.class)
+            .toProvider(JpaTransactionManagerProvider.class)
+            .in(new SingletonScope());
 
         bind(EntityManager.class)
             .toProvider(EntityManagerProvider.class)
@@ -30,10 +48,13 @@ class RepositoryModule
             .toProvider(JpaRepositoryFactoryProvider.class)
             .in(getDefaultScope());
 
-        bind(PlatformTransactionManager.class)
-            .to(PlatformTransactionManager.class)
+        bind(IUnitOfWork.class)
+            .toProvider(JpaUnitOfWorkProvider.class)
             .in(getDefaultScope());
 
+        bind(IUnitOfWorkSynchronizationManager.class)
+            .to(SpringUnitOfWorkSynchronizationManager.class)
+            .in(getDefaultScope());
     }
 }
 

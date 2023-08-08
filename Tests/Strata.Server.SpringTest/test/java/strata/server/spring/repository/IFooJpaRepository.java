@@ -1,15 +1,21 @@
 //////////////////////////////////////////////////////////////////////////////
-// ISpringFooRepository.java
+// IFooJpaRepository.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.server.spring.repository;
 
+import org.springframework.data.repository.ListCrudRepository;
 import strata.server.core.entity.Foo;
 import strata.server.core.entity.IFoo;
-import strata.server.core.repository.IFooRepository;
+
+import java.util.Optional;
 
 public
-interface ISpringFooRepository
-    extends IFooRepository,ISpringRepository<Long,Foo> {}
+interface IFooJpaRepository
+    extends ListCrudRepository<Foo,Long>
+{
+    Optional<Foo>
+    findByName(String name);
+}
 
 //////////////////////////////////////////////////////////////////////////////

@@ -12,13 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import strata.foundation.core.configuration.IConfiguration;
-
-import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,7 +55,6 @@ class EntityManagerProviderTest
         assertTrue(configuration.hasProperty("spring.datasource.username"));
         assertTrue(configuration.hasProperty("spring.datasource.password"));
         assertTrue(configuration.hasProperty("spring.datasource.url"));
-        assertTrue(configuration.hasProperty("spring.entitymanager.persistence-xml-location"));
     }
 
     @Test
@@ -72,45 +65,6 @@ class EntityManagerProviderTest
 
         assertNotNull(target);
     }
-
-    @Test
-    public void
-    testEntityManagerFactory()
-    {
-        IConfiguration configuration = injector.getInstance(IConfiguration.class);
-        LocalContainerEntityManagerFactoryBean factory =
-            new LocalContainerEntityManagerFactoryBean();
-
-        factory.setPersistenceXmlLocation(
-            configuration.getProperty(
-                "spring.entitymanager.persistence-xml-location"));
-        factory.setJtaDataSource(getDataSource(configuration));
-        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        factory.setPersistenceXmlLocation(
-            configuration.getProperty(
-                "spring.entitymanager.persistence-xml-location"));
-        factory.afterPropertiesSet();
-        assertNotNull(factory.getDataSource());
-        assertNotNull(factory.getObject());
-    }
-
-    protected DataSource
-    getDataSource(IConfiguration configuration)
-    {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-        dataSource.setDriverClassName(
-            configuration.getProperty("spring.datasource.driver-class-name"));
-        dataSource.setUrl(
-            configuration.getProperty("spring.datasource.url"));
-        dataSource.setUsername(
-            configuration.getProperty("spring.datasource.username"));
-        dataSource.setPassword(
-            configuration.getProperty("spring.datasource.password"));
-
-        return dataSource;
-    }
-
 }
 
 //////////////////////////////////////////////////////////////////////////////

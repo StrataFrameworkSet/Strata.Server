@@ -1,13 +1,22 @@
 //////////////////////////////////////////////////////////////////////////////
-// IRepositoryProvider.java
+// IFooBar.java
 //////////////////////////////////////////////////////////////////////////////
 
-package strata.server.spring.repository;
-
-import com.google.inject.Provider;
+package strata.server.core.entity;
 
 public
-interface IRepositoryProvider<R>
-    extends Provider<R> {}
+interface IFooBar
+    extends IEntity<Long,IFooBar>
+{
+    @Override
+    Long
+    getPrimaryId();
+
+    IFooBar
+    setBaz(String baz);
+
+    String
+    getBaz();
+}
 
 //////////////////////////////////////////////////////////////////////////////

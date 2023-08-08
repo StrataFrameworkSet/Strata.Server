@@ -8,8 +8,6 @@ sourceSets {
     test.resources.srcDirs = ['test/resources']
     testFixtures.java.srcDirs = ['testFixtures/java']
     testFixtures.resources.srcDirs = ['testFixtures/resources']
-    main.java.srcDirs = ['unused']
-    main.resources.srcDirs = ['unused']
 }
 
 group 'strata.server'

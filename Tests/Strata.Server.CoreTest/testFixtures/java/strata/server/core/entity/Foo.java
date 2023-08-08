@@ -6,29 +6,31 @@ package strata.server.core.entity;
 
 public
 class Foo
-    extends AbstractEntity<Long>
-    implements IFoo
 {
+    private Long primaryId;
+    private Integer version;
     private String name;
 
     public
     Foo()
     {
+        primaryId = null;
+        version = null;
         name = null;
     }
 
-    @Override
     public Foo
-    setPrimaryId(Long primaryId)
+    setPrimaryId(Long id)
     {
-        return (Foo)super.setPrimaryId(primaryId);
+        primaryId = id;
+        return this;
     }
 
-    @Override
-    public Long
-    getPrimaryId()
+    public Foo
+    setVersion(Integer ver)
     {
-        return super.getPrimaryId();
+        version = ver;
+        return this;
     }
 
     public Foo
@@ -37,6 +39,12 @@ class Foo
         name = n;
         return this;
     }
+
+    public Long
+    getPrimaryId() { return primaryId; }
+
+    public Integer
+    getVersion() { return version; }
 
     public String
     getName() { return name; }

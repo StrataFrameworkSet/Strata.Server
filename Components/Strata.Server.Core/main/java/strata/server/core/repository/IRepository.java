@@ -7,7 +7,6 @@ package strata.server.core.repository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public
 interface IRepository<K,E>
@@ -28,13 +27,18 @@ interface IRepository<K,E>
     findById(K primaryId);
 
     List<E>
-    findAllById(Iterable<K> primaryIds);
+    findAll();
 
-    Stream<E>
-    findAllByIdAndStream(Iterable<K> primaryIds);
-
+    /*
+    List<E>
+    findAllByIdIn(Iterable<K> primaryIds);
+    */
     boolean
     existsById(K primaryId);
+    /*
+    Map<K,Boolean>
+    existsAllByIdIn(Iterable<K> primaryIds);
+     */
 }
 
 //////////////////////////////////////////////////////////////////////////////

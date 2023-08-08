@@ -7,31 +7,28 @@ package strata.server.spring.repository;
 import com.google.inject.Provider;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
-import org.springframework.transaction.PlatformTransactionManager;
 
 public abstract
 class AbstractRepositoryFactoryProvider
     implements Provider<RepositoryFactorySupport>
 {
-    private final EntityManager              entityManager;
-    private final PlatformTransactionManager transactionManager;
+    private final EntityManager entityManager;
 
     protected
-    AbstractRepositoryFactoryProvider(EntityManager em,PlatformTransactionManager tm)
+    AbstractRepositoryFactoryProvider(EntityManager em)
     {
-        entityManager      = em;
-        transactionManager = tm;
+        entityManager = em;
     }
 
     @Override
     public RepositoryFactorySupport
     get()
     {
-        return getRepositoryFactorySupport(entityManager,transactionManager );
+        return getRepositoryFactorySupport(entityManager);
     }
 
     protected abstract RepositoryFactorySupport
-    getRepositoryFactorySupport(EntityManager em,PlatformTransactionManager tm);
+    getRepositoryFactorySupport(EntityManager em);
 }
 
 //////////////////////////////////////////////////////////////////////////////

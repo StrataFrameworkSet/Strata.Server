@@ -8,7 +8,6 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
-import org.springframework.transaction.PlatformTransactionManager;
 
 public
 class JpaRepositoryFactoryProvider
@@ -16,18 +15,16 @@ class JpaRepositoryFactoryProvider
 {
     @Inject
     public
-    JpaRepositoryFactoryProvider(EntityManager em,PlatformTransactionManager tm)
+    JpaRepositoryFactoryProvider(EntityManager em)
     {
-        super(em,tm);
+        super(em);
     }
 
     @Override
     protected RepositoryFactorySupport
-    getRepositoryFactorySupport(EntityManager em,PlatformTransactionManager tm)
+    getRepositoryFactorySupport(EntityManager em)
     {
-        RepositoryFactorySupport factory = new JpaRepositoryFactory(em);
-
-        return factory;
+        return new JpaRepositoryFactory(em);
     }
 }
 

@@ -14,7 +14,8 @@ class AbstractRepositoryProvider<R>
     private final Class<R>                 repositoryType;
     private final RepositoryFactorySupport factory;
 
-    protected AbstractRepositoryProvider(Class<R> type,RepositoryFactorySupport f)
+    protected
+    AbstractRepositoryProvider(Class<R> type,RepositoryFactorySupport f)
     {
         repositoryType = type;
         factory = f;

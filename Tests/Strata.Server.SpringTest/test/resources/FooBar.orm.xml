@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings>
+    xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="1.0"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+    <description>FooBar entity mappings</description>
+
+    <entity class="strata.server.core.entity.IFooBar" access="PROPERTY">
+        <table name="FooBar"/>
+        <inheritance strategy="SINGLE_TABLE"/>
+        <discriminator-column name="entityType"/>
+        <discriminator-value>IFooBar</discriminator-value>
+        <attributes>
+            <id name="primaryId">
+                <column name="primaryId"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <basic name="created">
+                <column name="created"/>
+            </basic>
+            <basic name="lastModified">
+                <column name="lastModified"/>
+            </basic>
+            <basic name="baz"/>
+            <version name="version">
+                <column name="version"/>
+            </version>
+        </attributes>
+    </entity>
+
+    <entity class="strata.server.core.entity.AbstractFooBar" access="PROPERTY">
+        <table name="FooBar"/>
+        <inheritance strategy="SINGLE_TABLE"/>
+        <discriminator-column name="entityType"/>
+        <discriminator-value>AbstractFooBar</discriminator-value>
+        <attributes>
+            <id name="primaryId">
+                <column name="primaryId"/>
+                <generated-value strategy="IDENTITY"/>
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="strata.server.core.entity.FooBarA" access="PROPERTY">
+        <discriminator-value>FooBarA</discriminator-value>
+        <attributes>
+            <transient name="self"/>
+        </attributes>
+    </entity>
+
+    <entity class="strata.server.core.entity.FooBarB" access="PROPERTY">
+        <discriminator-value>FooBarB</discriminator-value>
+        <attributes>
+            <basic name="indicator"/>
+            <transient name="self"/>
+        </attributes>
+    </entity>
+
+</entity-mappings>

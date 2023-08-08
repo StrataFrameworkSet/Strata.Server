@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.guice.annotation.EnableGuiceModules;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import strata.server.core.repository.IFooRepository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Tag("CommitStage")
 @ExtendWith(SpringExtension.class)
 @EnableGuiceModules
-@ContextConfiguration(classes = {TestConfiguration.class})
+@EnableTransactionManagement
+@ContextConfiguration(classes = {TestGuiceConfiguration.class})
 public
 class RepositoryProviderTest
 {

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// TransactionManagerProvider.java
+// JpaTransactionManagerProvider.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.server.spring.repository;
@@ -9,25 +9,30 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 
 public
-class TransactionManagerProvider
-    implements Provider<PlatformTransactionManager>
+class JpaTransactionManagerProvider
+    implements Provider<JpaTransactionManager>
 {
     private final EntityManagerFactory factory;
 
     @Inject
     public
-    TransactionManagerProvider(EntityManagerFactory f)
+    JpaTransactionManagerProvider(EntityManagerFactory f)
     {
         factory = f;
     }
 
     @Override
-    public PlatformTransactionManager
+    public JpaTransactionManager
     get()
     {
-        return new JpaTransactionManager(factory);
+        JpaTransactionManager manager = new JpaTransactionManager(factory);
+
+        manager.setTransactionSynchronization(
+            AbstractPlatformTransactionManager.SYNCHRONIZATION_ALWAYS);
+        return manager;
     }
 }
 

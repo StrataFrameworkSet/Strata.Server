@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class
+        name="strata.server.core.entity.IFoo"
+        table="Foo"
+        abstract="true">
+        <id
+            name="PrimaryId"
+            column="FooId"
+            type="java.lang.Long">
+            <generator class="identity" />
+        </id>
+        <discriminator
+            column="IFoo"
+            type="string"/>
+        <version
+            column="Version"
+            name="Version"
+            type="java.lang.Integer"/>
+        <property
+            column="Created"
+            name="Created"
+            type="java.time.Instant"/>
+        <property
+            column="LastModified"
+            name="LastModified"
+            type="java.time.Instant"/>
+        <property
+            name="Name"
+            column="Name"
+            type="java.lang.String"
+            unique="true"/>
+    </class>
+    <subclass
+        extends="strata.server.core.entity.IFoo"
+        proxy="strata.server.core.entity.IFoo"
+        name="strata.server.core.entity.Foo"
+        discriminator-value="Foo"/>
+</hibernate-mapping>

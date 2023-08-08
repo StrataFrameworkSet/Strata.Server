@@ -4,21 +4,25 @@
 
 package strata.server.core.entity;
 
+import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.time.Instant;
 
 public
-interface IEntity<K>
+interface IEntity<K extends Serializable,E>
+    extends Serializable
 {
-    IEntity<K>
+    E
     setPrimaryId(K primaryId);
 
-    IEntity<K>
+    E
     setVersion(Integer version);
 
-    IEntity<K>
+    E
     setCreated(Instant created);
 
-    IEntity<K>
+    E
     setLastModified(Instant lastModified);
 
     K

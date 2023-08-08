@@ -5,21 +5,23 @@
 package strata.server.core.entity;
 
 
+import jakarta.persistence.MappedSuperclass;
 import strata.server.core.domainevent.AbstractDomainEventSource;
 import strata.server.core.domainevent.IDomainEvent;
 import strata.server.core.domainevent.IDomainEventObserver;
 import strata.server.core.domainevent.IDomainEventSource;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 public abstract
 class AbstractEntityAndDomainEventSource<
-    K,
+    K extends Serializable,
     S extends IDomainEventSource<S,E,O>,
     E extends IDomainEvent<S>,
     O extends IDomainEventObserver<E>>
     extends AbstractDomainEventSource<S,E,O>
-    implements IEntity<K>,IDomainEventSource<S,E,O>
+    implements IEntity<K,S>,IDomainEventSource<S,E,O>
 {
     private K       itsPrimaryId;
     private Integer itsVersion;
@@ -46,35 +48,35 @@ class AbstractEntityAndDomainEventSource<
     }
 
     @Override
-    public IEntity<K>
+    public S
     setPrimaryId(K primaryId)
     {
         itsPrimaryId = primaryId;
-        return this;
+        return getSelf();
     }
 
     @Override
-    public IEntity<K>
+    public S
     setVersion(Integer version)
     {
         itsVersion = version;
-        return this;
+        return getSelf();
     }
 
     @Override
-    public IEntity<K>
+    public S
     setCreated(Instant created)
     {
         itsCreated = created;
-        return this;
+        return getSelf();
     }
 
     @Override
-    public IEntity<K>
+    public S
     setLastModified(Instant lastModified)
     {
         itsLastModified = lastModified;
-        return this;
+        return getSelf();
     }
 
     @Override

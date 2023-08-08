@@ -4,11 +4,14 @@
 
 package strata.server.core.entity;
 
+import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.time.Instant;
 
 public abstract
-class AbstractEntity<K>
-    implements IEntity<K>
+class AbstractEntity<K extends Serializable,E>
+    implements IEntity<K,E>
 {
     private K       itsPrimaryId;
     private Integer itsVersion;
@@ -24,35 +27,35 @@ class AbstractEntity<K>
     }
 
     @Override
-    public IEntity<K>
+    public E
     setPrimaryId(K primaryId)
     {
         itsPrimaryId = primaryId;
-        return this;
+        return getSelf();
     }
 
     @Override
-    public IEntity<K>
+    public E
     setVersion(Integer version)
     {
         itsVersion = version;
-        return this;
+        return getSelf();
     }
 
     @Override
-    public IEntity<K>
+    public E
     setCreated(Instant created)
     {
         itsCreated = created;
-        return this;
+        return getSelf();
     }
 
     @Override
-    public IEntity<K>
+    public E
     setLastModified(Instant lastModified)
     {
         itsLastModified = lastModified;
-        return this;
+        return getSelf();
     }
 
     @Override
@@ -82,5 +85,8 @@ class AbstractEntity<K>
     {
         return itsLastModified;
     }
+
+    protected abstract E
+    getSelf();
 }
 //////////////////////////////////////////////////////////////////////////////

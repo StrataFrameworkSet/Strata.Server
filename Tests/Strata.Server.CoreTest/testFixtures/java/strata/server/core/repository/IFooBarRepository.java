@@ -1,21 +1,19 @@
 //////////////////////////////////////////////////////////////////////////////
-// IFooRepository.java
+// IFooBarRepository.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.server.core.repository;
 
-import strata.server.core.entity.Foo;
+import strata.server.core.entity.IFooBar;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public
-interface IFooRepository
-    extends IRepository<Long,Foo>
+interface IFooBarRepository
+    extends IRepository<Long,IFooBar>
 {
-    Stream<Foo>
-    findByName(String name);
+    Stream<IFooBar>
+    findByBaz(String baz);
 }
 
 //////////////////////////////////////////////////////////////////////////////
