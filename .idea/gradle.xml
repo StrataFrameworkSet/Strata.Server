@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="Corretto-17" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$COMPONENTS_ROOT$" />
+            <option value="$COMPONENTS_ROOT$/Strata.Server.Core" />
+            <option value="$COMPONENTS_ROOT$/Strata.Server.Helidon" />
+            <option value="$COMPONENTS_ROOT$/Strata.Server.Reactor" />
+            <option value="$COMPONENTS_ROOT$/Strata.Server.Spring" />
+            <option value="$TESTS_ROOT$" />
+            <option value="$TESTS_ROOT$/Strata.Server.CoreTest" />
+            <option value="$TESTS_ROOT$/Strata.Server.HelidonTest" />
+            <option value="$TESTS_ROOT$/Strata.Server.ReactorTest" />
+            <option value="$TESTS_ROOT$/Strata.Server.SpringTest" />
+            <option value="$TESTS_ROOT$/Strata.Server.TestSuite" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
