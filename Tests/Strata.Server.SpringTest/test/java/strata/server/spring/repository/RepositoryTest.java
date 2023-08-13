@@ -13,14 +13,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import strata.server.core.entity.*;
 import strata.server.core.repository.IFooBarRepository;
 import strata.server.core.repository.IFooRepository;
 import strata.server.core.unitofwork.IUnitOfWork;
+import strata.server.core.unitofwork.IUnitOfWorkManager;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
+import strata.server.spring.unitofwork.JpaUnitOfWorkManager;
 
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,7 +45,7 @@ class RepositoryTest
     private EntityManager manager;
 
     @Autowired
-    private PlatformTransactionManager transactionManager;
+    private JpaUnitOfWorkManager unitOfWorkManager;
 
     @Autowired
     private IUnitOfWork unitOfWork;
@@ -58,7 +59,7 @@ class RepositoryTest
     public void
     setUp() throws Exception
     {
-        transaction = new TransactionTemplate(transactionManager);
+        transaction = new TransactionTemplate(unitOfWorkManager);
     }
 
     @AfterEach
@@ -114,26 +115,34 @@ class RepositoryTest
                     .executeAfterRollback(() -> System.out.println("After Rollback 2"));
 
             });
-        target
-            .findAll()
-            .stream()
-            .forEach(foo -> System.out.println("primaryId="+foo.getPrimaryId()));
+        transaction.executeWithoutResult(
+            status ->
+            {
+                target
+                    .findAll()
+                    .stream()
+                    .forEach(foo -> System.out.println("primaryId=" + foo.getPrimaryId()));
 
-        Stream<Foo> result = target.findByName(actual.get().getName());
+                Stream<Foo> result = target.findByName(actual.get().getName());
 
-        result.forEach(foo -> assertEquals(actual.get().getName(),foo.getName()));
+                result.forEach(foo -> assertEquals(actual.get().getName(),foo.getName()));
 
-        repository
-            .findByBaz(foobarA.get().getBaz())
-            .forEach(fb -> assertEquals(foobarA.get().getBaz(),fb.getBaz()));
+                repository
+                    .findByBaz(foobarA.get().getBaz())
+                    .forEach(fb -> assertEquals(foobarA.get().getBaz(),fb.getBaz()));
+            });
         assertNotNull(actual.get());
         assertNotNull(actual.get().getPrimaryId());
         assertEquals(expected.get().getName(),actual.get().getName());
-        assertTrue(target.findById(actual.get().getPrimaryId()).isPresent());
-        assertTrue(target.existsById(actual.get().getPrimaryId()));
+        transaction.executeWithoutResult(
+            status ->
+            {
+                assertTrue(target.findById(actual.get().getPrimaryId()).isPresent());
+                assertTrue(target.existsById(actual.get().getPrimaryId()));
 
-        assertNotNull(foobarA.get());
-        assertTrue(repository.existsById(foobarA.get().getPrimaryId()));
+                assertNotNull(foobarA.get());
+                assertTrue(repository.existsById(foobarA.get().getPrimaryId()));
+            });
 
     }
 }

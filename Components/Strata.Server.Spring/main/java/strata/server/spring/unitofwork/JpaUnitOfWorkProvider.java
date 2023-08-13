@@ -7,6 +7,7 @@ package strata.server.spring.unitofwork;
 import com.google.inject.Provider;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import strata.server.core.unitofwork.IUnitOfWork;
 
@@ -14,18 +15,20 @@ public
 class JpaUnitOfWorkProvider
     implements Provider<IUnitOfWork>
 {
-    private JpaTransactionManager transactionManager;
+    private EntityManagerFactory factory;
+
     @Inject
-    public JpaUnitOfWorkProvider(JpaTransactionManager manager)
+    public
+    JpaUnitOfWorkProvider(EntityManagerFactory f)
     {
-        transactionManager = manager;
+        factory = f;
     }
 
     @Override
     public IUnitOfWork
     get()
     {
-        return new JpaUnitOfWork(transactionManager);
+        return new JpaUnitOfWork(factory);
     }
 }
 

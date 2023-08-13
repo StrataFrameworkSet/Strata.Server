@@ -20,8 +20,10 @@ import strata.server.core.repository.FooRepository;
 import strata.server.core.repository.IFooBarRepository;
 import strata.server.core.repository.IFooRepository;
 import strata.server.core.unitofwork.IUnitOfWork;
+import strata.server.core.unitofwork.IUnitOfWorkManager;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
+import strata.server.spring.unitofwork.JpaUnitOfWorkManager;
 import strata.server.spring.unitofwork.SpringUnitOfWorkSynchronizationManager;
 
 @Configuration
@@ -69,6 +71,13 @@ class TestSpringConfiguration
     }
 
     @Bean
+    public JpaUnitOfWorkManager
+    unitOfWorkManager(IUnitOfWork unitOfWork)
+    {
+        return new JpaUnitOfWorkManager((JpaUnitOfWork)unitOfWork);
+    }
+
+    @Bean
     public RepositoryFactorySupport
     repositoryFactory(EntityManager entityManager)
     {
@@ -87,9 +96,9 @@ class TestSpringConfiguration
 
     @Bean
     public IUnitOfWork
-    unitOfWork(JpaTransactionManager transactionManager)
+    unitOfWork(EntityManagerFactory factory)
     {
-        return new JpaUnitOfWork(transactionManager);
+        return new JpaUnitOfWork(factory);
     }
 
     @Bean

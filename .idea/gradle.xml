@@ -4,25 +4,22 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="Corretto-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$COMPONENTS_ROOT$" />
-            <option value="$COMPONENTS_ROOT$/Strata.Server.Core" />
-            <option value="$COMPONENTS_ROOT$/Strata.Server.Helidon" />
-            <option value="$COMPONENTS_ROOT$/Strata.Server.Reactor" />
-            <option value="$COMPONENTS_ROOT$/Strata.Server.Spring" />
-            <option value="$TESTS_ROOT$" />
-            <option value="$TESTS_ROOT$/Strata.Server.CoreTest" />
-            <option value="$TESTS_ROOT$/Strata.Server.HelidonTest" />
-            <option value="$TESTS_ROOT$/Strata.Server.ReactorTest" />
-            <option value="$TESTS_ROOT$/Strata.Server.SpringTest" />
-            <option value="$TESTS_ROOT$/Strata.Server.TestSuite" />
+            <option value="$PROJECT_DIR$/Components" />
+            <option value="$PROJECT_DIR$/Components/Strata.Server.Core" />
+            <option value="$PROJECT_DIR$/Components/Strata.Server.Helidon" />
+            <option value="$PROJECT_DIR$/Components/Strata.Server.Reactor" />
+            <option value="$PROJECT_DIR$/Components/Strata.Server.Spring" />
+            <option value="$PROJECT_DIR$/Tests" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Server.CoreTest" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Server.HelidonTest" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Server.ReactorTest" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Server.SpringTest" />
+            <option value="$PROJECT_DIR$/Tests/Strata.Server.TestSuite" />
           </set>
         </option>
       </GradleProjectSettings>

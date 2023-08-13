@@ -48,6 +48,21 @@ class SpringUnitOfWorkSynchronizationManager
 
     @Override
     public void
+    afterCommit()
+    {
+        try
+        {
+            doAfterCommit();
+        }
+        finally
+        {
+            clearAfterCommitActions();
+            clearAfterRollbackActions();
+        }
+    }
+
+    @Override
+    public void
     afterCompletion(int status)
     {
         registered.set(false);
