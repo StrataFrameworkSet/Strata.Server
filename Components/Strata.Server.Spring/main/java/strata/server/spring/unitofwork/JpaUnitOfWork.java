@@ -11,7 +11,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.hibernate.PersistentObjectException;
 import strata.foundation.core.container.Pair;
 import strata.foundation.core.utility.BooleanResult;
 import strata.foundation.core.utility.OptionalExtension;
@@ -45,24 +44,10 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
-                    mgr ->
-                    {
-                        if (mgr.contains(entity))
-                            return mgr.merge(entity);
-
-                        try
-                        {
-                            mgr.persist(entity);
-                        }
-                        catch (PersistentObjectException e)
-                        {
-                            mgr.merge(entity);
-                        }
-                        return entity;
-                    },
-                    () -> (S)throwUnitOfWorkNotBegun());
+                    mgr -> mgr.merge(entity),
+                    createUnitOfWorkNotBegun());
 
     }
 
@@ -82,10 +67,10 @@ class JpaUnitOfWork
     delete(E entity)
     {
         OptionalExtension
-            .ifPresentOrElseNoReturn(
+            .ifPresentOrThrowNoReturn(
                 manager,
                 mgr -> mgr.remove(entity),
-                () -> throwUnitOfWorkNotBegun());
+                createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -103,11 +88,10 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr -> Optional.ofNullable(mgr.find(type,id)),
-                    () -> (Optional<E>)throwUnitOfWorkNotBegun());
-
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -116,7 +100,7 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr ->
                     {
@@ -129,7 +113,7 @@ class JpaUnitOfWork
                                 .createQuery(query.select(root))
                                 .getResultList();
                     },
-                    () -> (List<E>)throwUnitOfWorkNotBegun());
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -138,7 +122,7 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr ->
                     {
@@ -157,7 +141,7 @@ class JpaUnitOfWork
                                                 .in(ids)))
                                 .getResultList();
                     },
-                    () -> (List<E>)throwUnitOfWorkNotBegun());
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -173,7 +157,7 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr ->
                     {
@@ -192,7 +176,7 @@ class JpaUnitOfWork
                                                 propertyValue)))
                                 .getResultList();
                     },
-                    () -> (List<E>)throwUnitOfWorkNotBegun());
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -201,7 +185,7 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr ->
                     {
@@ -237,7 +221,7 @@ class JpaUnitOfWork
                                         .where(predicate.get()))
                                 .getResultList();
                     },
-                    () -> (List<E>)throwUnitOfWorkNotBegun());
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -246,7 +230,7 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr ->
                     {
@@ -262,7 +246,7 @@ class JpaUnitOfWork
 
                         return Optional.ofNullable(typedQuery.getSingleResult());
                     },
-                    () ->(Optional<E>)throwUnitOfWorkNotBegun());
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -271,7 +255,7 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr ->
                     {
@@ -287,7 +271,7 @@ class JpaUnitOfWork
 
                         return typedQuery.getResultList();
                     },
-                    () -> (List<E>)throwUnitOfWorkNotBegun());
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -296,7 +280,7 @@ class JpaUnitOfWork
     {
         return
             OptionalExtension
-                .ifPresentOrElse(
+                .ifPresentOrThrow(
                     manager,
                     mgr ->
                     {
@@ -312,7 +296,7 @@ class JpaUnitOfWork
                                         .where(builder.equal(root.get(idProperty),id)))
                                 .getSingleResult() > 0L;
                     },
-                    () -> (boolean)throwUnitOfWorkNotBegun());
+                    createUnitOfWorkNotBegun());
      }
 
     @Override
@@ -327,6 +311,24 @@ class JpaUnitOfWork
                     Collectors.toMap(
                         pair -> pair.getFirst(),
                         pair -> pair.getSecond()));
+    }
+
+    @Override
+    public <E,S extends E> boolean
+    isManaged(S entity)
+    {
+        return
+            OptionalExtension
+                .ifPresentOrThrow(
+                    manager,
+                    mgr ->
+                    {
+                        if (mgr.contains(entity))
+                            return true;
+
+                        return false;
+                    },
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -352,7 +354,7 @@ class JpaUnitOfWork
         {
             return
                 OptionalExtension
-                    .ifPresentOrElse(
+                    .ifPresentOrThrow(
                         manager,
                         mgr ->
                         {
@@ -361,7 +363,7 @@ class JpaUnitOfWork
                                 .commit();
                             return this;
                         },
-                        () -> (IUnitOfWork)throwUnitOfWorkNotBegun());
+                        createUnitOfWorkNotBegun());
         }
         finally
         {
@@ -377,7 +379,7 @@ class JpaUnitOfWork
         {
             return
                 OptionalExtension
-                    .ifPresentOrElse(
+                    .ifPresentOrThrow(
                         manager,
                         mgr ->
                         {
@@ -386,7 +388,7 @@ class JpaUnitOfWork
                                 .rollback();
                             return this;
                         },
-                        () -> (IUnitOfWork)throwUnitOfWorkNotBegun());
+                        createUnitOfWorkNotBegun());
         }
         finally
         {
@@ -434,10 +436,10 @@ class JpaUnitOfWork
         return queries.get(queryName);
     }
 
-    private static Object
-    throwUnitOfWorkNotBegun()
+    private static RuntimeException
+    createUnitOfWorkNotBegun()
     {
-        throw new RuntimeException("unit of work not begun.");
+        return new RuntimeException("unit of work not begun.");
     }
 
 }

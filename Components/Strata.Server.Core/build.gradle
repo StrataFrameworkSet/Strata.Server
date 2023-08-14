@@ -22,10 +22,6 @@ publishing {
             artifactId = 'strata-server-core'
             from components.java
 
-            artifact sourceJar {
-                //classifier "sources"
-            }
-
             repositories {
                 maven {
                     name "GitHubPackages"
