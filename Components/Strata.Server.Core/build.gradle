@@ -18,7 +18,7 @@ task sourceJar(type: Jar) {
 
 publishing {
     publications {
-        StrataFoundationChronicle(MavenPublication) {
+        StrataServerCore(MavenPublication) {
             artifactId = 'strata-server-core'
             from components.java
 

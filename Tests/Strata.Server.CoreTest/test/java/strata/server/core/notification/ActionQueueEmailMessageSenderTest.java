@@ -7,6 +7,8 @@ package strata.server.core.notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import strata.foundation.core.action.IActionQueue;
+import strata.foundation.core.action.StandardActionQueue;
 import strata.foundation.core.configuration.SecureConfiguration;
 import strata.foundation.core.value.EmailAddress;
 import strata.server.core.inject.SecureEmailConfigurationProvider;
@@ -16,8 +18,9 @@ import java.util.UUID;
 
 @Tag("IntegrationStage")
 public
-class JavaMailMessageSenderTest
+class ActionQueueEmailMessageSenderTest
 {
+    private IActionQueue         itsQueue;
     private IEmailMessageSender  itsTarget;
     private IEmailMessageBuilder itsBuilder;
 
@@ -26,10 +29,13 @@ class JavaMailMessageSenderTest
     setUp()
         throws Exception
     {
+
+        itsQueue = new StandardActionQueue();
         itsTarget =
-            new JavaMailMessageSender(
+            new ActionQueueEmailMessageSender(
                 new SecureEmailConfigurationProvider(
-                    new SecureConfiguration(getPropertiesFile())));
+                    new SecureConfiguration(getPropertiesFile())),
+                itsQueue);
         itsBuilder =
             new EmailMessageBuilder(
                 new StandardTemplateRepository()
@@ -39,7 +45,6 @@ class JavaMailMessageSenderTest
                     .insert(
                         "HelloHtml",
                         getHtmlTemplate()));
-        itsTarget.open();
     }
 
     @Test
@@ -56,7 +61,12 @@ class JavaMailMessageSenderTest
                 .addParameter("{{greeting}}","what's happening")
                 .build();
 
-        itsTarget.send(message);
+        itsTarget
+            .open()
+            .send(message)
+            .close();
+
+        itsQueue.execute();
     }
 
     @Test
@@ -79,7 +89,12 @@ class JavaMailMessageSenderTest
                     new ResourceAttachment("logo","image/png","logo.png"))
                 .build();
 
-        itsTarget.send(message);
+        itsTarget
+            .open()
+            .send(message)
+            .close();
+
+        itsQueue.execute();
     }
 
     private String

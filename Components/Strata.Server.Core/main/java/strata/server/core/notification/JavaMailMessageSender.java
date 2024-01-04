@@ -23,20 +23,14 @@ public
 class JavaMailMessageSender
     implements IEmailMessageSender
 {
-    private final IActionQueue                itsQueue;
     private final IEmailConfigurationProvider itsConfiguration;
     private Session itsSession;
 
     @Inject
-    JavaMailMessageSender(
-        IActionQueue                queue,
-        IEmailConfigurationProvider configuration)
+    JavaMailMessageSender(IEmailConfigurationProvider configuration)
     {
-        itsQueue = queue;
         itsConfiguration = configuration;
         itsSession = null;
-
-        itsQueue.register(() -> open(),() -> close());
     }
 
     @Override
@@ -81,31 +75,35 @@ class JavaMailMessageSender
     public IEmailMessageSender
     send(IEmailMessage message)
     {
-        itsQueue.insert(
-            () ->
-            {
-                Session       session = getSession();
-                MimeMessage   msg = new MimeMessage(session);
-                MimeMultipart multi = new MimeMultipart();
-                MimeBodyPart  content = new MimeBodyPart();
+        Session       session = getSession();
+        MimeMessage   msg = new MimeMessage(session);
+        MimeMultipart multi = new MimeMultipart();
+        MimeBodyPart  content = new MimeBodyPart();
 
-                msg.setFrom(message.getSender().toString());
-                msg.setRecipients(
-                    Message.RecipientType.TO,
-                    toString(message.getRecipients()));
-                msg.setSubject(message.getSubject());
+        try
+        {
+            msg.setFrom(message.getSender().toString());
+            msg.setRecipients(
+                Message.RecipientType.TO,
+                toString(message.getRecipients()));
+            msg.setSubject(message.getSubject());
 
-                content.setText(message.getContent(),"utf-8", "html");
-                multi.addBodyPart(content);
+            content.setText(message.getContent(),"utf-8","html");
+            multi.addBodyPart(content);
 
-                message
-                    .getAttachments()
-                    .stream()
-                    .forEach(attachment -> addAttachmentPart(multi,attachment));
+            message
+                .getAttachments()
+                .stream()
+                .forEach(attachment -> addAttachmentPart(multi,attachment));
 
-                msg.setContent(multi);
-                Transport.send(msg);
-            });
+            msg.setContent(multi);
+            Transport.send(msg);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
         return this;
     }
 

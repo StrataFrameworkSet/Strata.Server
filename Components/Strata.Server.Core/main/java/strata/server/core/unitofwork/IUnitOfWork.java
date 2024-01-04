@@ -34,7 +34,7 @@ interface IUnitOfWork
     findAllByIdIn(Class<E> type,String idProperty,Iterable<K> ids);
 
     <E> Optional<E>
-    findOneByCriteria(Class<E> type,Map<String,Object> propertyCriteria);
+    findOneByCriteria(Class<E> type,String propertyName,Object propertyValue);
 
     <E> List<E>
     findManyByCriteria(Class<E> type,String propertyName,Object propertyValue);

@@ -4,8 +4,10 @@
 
 package strata.server.spring.unitofwork;
 
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -30,6 +32,7 @@ class JpaUnitOfWork
     private Optional<EntityManager>  manager;
     private final Map<String,String> queries;
 
+    @Inject
     public
     JpaUnitOfWork(EntityManagerFactory f)
     {
@@ -146,9 +149,38 @@ class JpaUnitOfWork
 
     @Override
     public <E> Optional<E>
-    findOneByCriteria(Class<E> type,Map<String,Object> propertyCriteria)
+    findOneByCriteria(Class<E> type,String propertyName,Object propertyValue)
     {
-        return Optional.empty();
+        return
+            OptionalExtension
+                .ifPresentOrThrow(
+                    manager,
+                    mgr ->
+                    {
+                        CriteriaBuilder builder = mgr.getCriteriaBuilder();
+                        CriteriaQuery<E> query = builder.createQuery(type);
+                        Root<E> root = query.from(type);
+
+                        try
+                        {
+                            return
+                                Optional.ofNullable(
+                                    mgr
+                                        .createQuery(
+                                            query
+                                                .select(root)
+                                                .where(
+                                                    builder.equal(
+                                                        root.get(propertyName),
+                                                        propertyValue)))
+                                        .getSingleResult());
+                        }
+                        catch (NoResultException e)
+                        {
+                            return Optional.empty();
+                        }
+                    },
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
@@ -228,25 +260,32 @@ class JpaUnitOfWork
     public <E> Optional<E>
     findOneByQuery(Class<E> type,String queryName,Map<String,Object> parameters)
     {
-        return
-            OptionalExtension
-                .ifPresentOrThrow(
-                    manager,
-                    mgr ->
-                    {
-                        TypedQuery<E> typedQuery =
-                            mgr.createQuery(getQuery(queryName),type);
+        try
+        {
+            return
+                OptionalExtension
+                    .ifPresentOrThrow(
+                        manager,
+                        mgr ->
+                        {
+                            TypedQuery<E> typedQuery =
+                                mgr.createQuery(getQuery(queryName),type);
 
-                        parameters
-                            .entrySet()
-                            .stream()
-                            .forEach(
-                                entry ->
-                                    typedQuery.setParameter(entry.getKey(),entry.getValue()));
+                            parameters
+                                .entrySet()
+                                .stream()
+                                .forEach(
+                                    entry ->
+                                        typedQuery.setParameter(entry.getKey(),entry.getValue()));
 
-                        return Optional.ofNullable(typedQuery.getSingleResult());
-                    },
-                    createUnitOfWorkNotBegun());
+                            return Optional.ofNullable(typedQuery.getSingleResult());
+                        },
+                        createUnitOfWorkNotBegun());
+        }
+        catch (NoResultException e)
+        {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -350,8 +389,6 @@ class JpaUnitOfWork
     public IUnitOfWork
     commit()
     {
-        try
-        {
             return
                 OptionalExtension
                     .ifPresentOrThrow(
@@ -361,22 +398,16 @@ class JpaUnitOfWork
                             mgr
                                 .getTransaction()
                                 .commit();
+                            manager = Optional.empty();
                             return this;
                         },
                         createUnitOfWorkNotBegun());
-        }
-        finally
-        {
-            manager = Optional.empty();
-        }
     }
 
     @Override
     public IUnitOfWork
     rollback()
     {
-        try
-        {
             return
                 OptionalExtension
                     .ifPresentOrThrow(
@@ -386,14 +417,10 @@ class JpaUnitOfWork
                             mgr
                                 .getTransaction()
                                 .rollback();
+                            manager = Optional.empty();
                             return this;
                         },
                         createUnitOfWorkNotBegun());
-        }
-        finally
-        {
-            manager = Optional.empty();
-        }
     }
 
     @Override

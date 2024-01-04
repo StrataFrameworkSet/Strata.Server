@@ -8,9 +8,8 @@ import com.google.gson.JsonObject;
 import com.telesign.MessagingClient;
 import com.telesign.RestClient;
 import jakarta.inject.Inject;
-import strata.server.core.inject.ITextingConfigurationProvider;
-import strata.foundation.core.action.IActionQueue;
 import strata.foundation.core.value.PhoneNumber;
+import strata.server.core.inject.ITextingConfigurationProvider;
 
 import java.util.Map;
 
@@ -18,20 +17,14 @@ public
 class TeleSignMessageSender
     implements ITextMessageSender
 {
-    private final IActionQueue                  itsQueue;
     private final ITextingConfigurationProvider itsConfiguration;
     private MessagingClient                     itsClient;
 
     @Inject
-    TeleSignMessageSender(
-        IActionQueue                  queue,
-        ITextingConfigurationProvider configuration)
+    TeleSignMessageSender(ITextingConfigurationProvider configuration)
     {
-        itsQueue = queue;
         itsConfiguration = configuration;
         itsClient = null;
-
-        itsQueue.register(() -> open(),() -> close());
     }
 
     @Override
@@ -60,51 +53,47 @@ class TeleSignMessageSender
     public ITextMessageSender
     send(ITextMessage message)
     {
-        itsQueue.insert(
-            () ->
+        for (PhoneNumber recipient: message.getRecipients())
+        {
+            try
             {
-                for (PhoneNumber recipient: message.getRecipients())
+                RestClient.TelesignResponse response =
+                    getClient().message(
+                        recipient.getDigitsOnly(),
+                        message.getContent(),
+                        "OTP",
+                        null);
+                int attempts = 1;
+
+                while ((!response.ok) && (attempts++ < 3))
                 {
-                    try
+                    JsonObject data = response.json;
+
+                    if (
+                        data.has("code") &&
+                        data.getAsInt() == 10019)
                     {
-                        RestClient.TelesignResponse response =
+                        Thread.currentThread().sleep(1100);
+                        response =
                             getClient().message(
                                 recipient.getDigitsOnly(),
                                 message.getContent(),
                                 "OTP",
                                 null);
-                        int attempts = 1;
-
-                        while ((!response.ok) && (attempts++ < 3))
-                        {
-                            JsonObject data = response.json;
-
-                            if (
-                                data.has("code") &&
-                                data.getAsInt() == 10019)
-                            {
-                                Thread.currentThread().sleep(1100);
-                                response =
-                                    getClient().message(
-                                        recipient.getDigitsOnly(),
-                                        message.getContent(),
-                                        "OTP",
-                                        null);
-                            }
-                            else
-                                throw
-                                    new RuntimeException(
-                                        "send failed: status=" +
-                                            response.statusCode +
-                                            " body=" + response.body);
-                        }
                     }
-                    catch (Exception e)
-                    {
-                        throw new RuntimeException(e);
-                    }
+                    else
+                        throw
+                            new RuntimeException(
+                                "send failed: status=" +
+                                    response.statusCode +
+                                    " body=" + response.body);
                 }
-            });
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
 
         return this;
     }

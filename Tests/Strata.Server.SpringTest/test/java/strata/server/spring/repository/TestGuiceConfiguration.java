@@ -9,6 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.guice.annotation.EnableGuiceModules;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import strata.server.core.unitofwork.IUnitOfWork;
+import strata.server.core.unitofwork.IUnitOfWorkManager;
+import strata.server.spring.unitofwork.JpaUnitOfWork;
+import strata.server.spring.unitofwork.JpaUnitOfWorkManager;
 
 @Configuration
 @EnableGuiceModules
@@ -25,6 +29,12 @@ class TestGuiceConfiguration
     public RepositoryTestModule
     repositoryTestModule() { return new RepositoryTestModule(); }
 
+    @Bean
+    public IUnitOfWorkManager
+    unitOfWorkManager(IUnitOfWork uow)
+    {
+        return new JpaUnitOfWorkManager((JpaUnitOfWork)uow);
+    }
     /*
     @Bean
     public IFooRepository

@@ -13,7 +13,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.core.inject.AbstractModule;
 import strata.server.core.unitofwork.IUnitOfWork;
+import strata.server.core.unitofwork.IUnitOfWorkManager;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
+import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;
+import strata.server.spring.unitofwork.JpaUnitOfWorkManagerProvider;
 import strata.server.spring.unitofwork.JpaUnitOfWorkProvider;
 import strata.server.spring.unitofwork.SpringUnitOfWorkSynchronizationManager;
 
@@ -36,10 +39,6 @@ class RepositoryModule
             .toProvider(EntityManagerFactoryProvider.class)
             .in(new SingletonScope());
 
-        bind(PlatformTransactionManager.class)
-            .toProvider(JpaTransactionManagerProvider.class)
-            .in(new SingletonScope());
-
         bind(EntityManager.class)
             .toProvider(EntityManagerProvider.class)
             .in(getDefaultScope());
@@ -50,6 +49,10 @@ class RepositoryModule
 
         bind(IUnitOfWork.class)
             .toProvider(JpaUnitOfWorkProvider.class)
+            .in(getDefaultScope());
+
+        bind(ISpringUnitOfWorkManager.class)
+            .toProvider(JpaUnitOfWorkManagerProvider.class)
             .in(getDefaultScope());
 
         bind(IUnitOfWorkSynchronizationManager.class)

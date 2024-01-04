@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// TeleSignMessageSenderTest.java
+// ActionQueueTextMessageSenderTest.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.server.core.notification;
@@ -7,6 +7,8 @@ package strata.server.core.notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import strata.foundation.core.action.IActionQueue;
+import strata.foundation.core.action.StandardActionQueue;
 import strata.foundation.core.configuration.SecureConfiguration;
 import strata.foundation.core.value.PhoneNumber;
 import strata.server.core.inject.SecureTextingConfigurationProvider;
@@ -15,8 +17,9 @@ import java.io.InputStream;
 
 @Tag("IntegrationStage")
 public
-class TeleSignMessageSenderTest
+class ActionQueueTextMessageSenderTest
 {
+    private IActionQueue        itsQueue;
     private ITextMessageSender  itsTarget;
     private ITextMessageBuilder itsBuilder;
 
@@ -25,10 +28,12 @@ class TeleSignMessageSenderTest
     setUp()
         throws Exception
     {
+        itsQueue = new StandardActionQueue();
         itsTarget =
-            new TeleSignMessageSender(
+            new ActionQueueTextMessageSender(
                 new SecureTextingConfigurationProvider(
-                    new SecureConfiguration(getPropertiesFile())));
+                    new SecureConfiguration(getPropertiesFile())),
+                itsQueue);
         itsBuilder =
             new TextMessageBuilder(
                 new StandardTemplateRepository()
@@ -50,10 +55,9 @@ class TeleSignMessageSenderTest
                 .addParameter("{{greeting}}","what's happening?")
                 .build();
 
-        itsTarget
-            .open()
-            .send(message)
-            .close();
+        itsTarget.send(message);
+
+        itsQueue.execute();
     }
 
     protected InputStream

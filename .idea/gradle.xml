@@ -9,6 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Applications" />
+            <option value="$PROJECT_DIR$/Applications/Strata.Server.HelloServiceHost" />
             <option value="$PROJECT_DIR$/Components" />
             <option value="$PROJECT_DIR$/Components/Strata.Server.Core" />
             <option value="$PROJECT_DIR$/Components/Strata.Server.Helidon" />

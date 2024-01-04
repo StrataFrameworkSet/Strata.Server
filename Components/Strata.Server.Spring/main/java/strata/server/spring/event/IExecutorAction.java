@@ -1,14 +1,15 @@
 //////////////////////////////////////////////////////////////////////////////
-// IUnitOfWorkManager.java
+// IExecutorAction.java
 //////////////////////////////////////////////////////////////////////////////
 
-package strata.server.core.unitofwork;
+package strata.server.spring.event;
+
+import strata.foundation.core.action.IAction;
+
+import java.util.concurrent.Executor;
 
 public
-interface IUnitOfWorkManager
-{
-    IUnitOfWork
-    getUnitOfWork();
-}
+interface IExecutorAction
+    extends Executor, IAction {}
 
 //////////////////////////////////////////////////////////////////////////////

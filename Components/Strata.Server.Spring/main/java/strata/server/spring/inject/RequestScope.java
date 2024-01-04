@@ -9,6 +9,7 @@ import com.google.inject.Provider;
 import com.google.inject.Scope;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.RequestContextListener;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

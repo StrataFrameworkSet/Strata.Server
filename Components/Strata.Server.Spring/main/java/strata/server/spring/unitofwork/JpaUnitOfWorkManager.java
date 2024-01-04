@@ -5,16 +5,17 @@
 package strata.server.spring.unitofwork;
 
 import jakarta.inject.Inject;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionStatus;
-import strata.server.core.unitofwork.IUnitOfWorkManager;
+import strata.server.core.unitofwork.IUnitOfWork;
 
 public
 class JpaUnitOfWorkManager
     extends AbstractPlatformTransactionManager
-    implements IUnitOfWorkManager
+    implements ISpringUnitOfWorkManager
 {
     private JpaUnitOfWork unitOfWork;
 
@@ -22,7 +23,22 @@ class JpaUnitOfWorkManager
     public
     JpaUnitOfWorkManager(JpaUnitOfWork uow)
     {
+        super();
+
+        if (super.logger == null)
+            super.logger = LogFactory.getLog(JpaUnitOfWorkManager.class);
+
+        if (super.logger == null)
+            throw new NullPointerException("logger did not initialize correctly");
+
         unitOfWork = uow;
+    }
+
+    @Override
+    public IUnitOfWork
+    getUnitOfWork()
+    {
+        return unitOfWork;
     }
 
     @Override
