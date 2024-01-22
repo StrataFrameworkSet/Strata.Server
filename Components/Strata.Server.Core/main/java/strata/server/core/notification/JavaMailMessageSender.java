@@ -10,9 +10,8 @@ import jakarta.mail.internet.InternetHeaders;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
-import strata.server.core.inject.IEmailConfigurationProvider;
-import strata.foundation.core.action.IActionQueue;
 import strata.foundation.core.value.EmailAddress;
+import strata.server.core.inject.IEmailConfigurationProvider;
 
 import java.util.Collection;
 import java.util.Map;
@@ -27,6 +26,7 @@ class JavaMailMessageSender
     private Session itsSession;
 
     @Inject
+    public
     JavaMailMessageSender(IEmailConfigurationProvider configuration)
     {
         itsConfiguration = configuration;

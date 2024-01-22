@@ -21,6 +21,7 @@ class TeleSignMessageSender
     private MessagingClient                     itsClient;
 
     @Inject
+    public
     TeleSignMessageSender(ITextingConfigurationProvider configuration)
     {
         itsConfiguration = configuration;
