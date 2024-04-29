@@ -44,19 +44,19 @@ class JavaMailMessageSender
             Session.getInstance(
                 properties,
                 new Authenticator()
-        {
-            @Override
-            protected PasswordAuthentication
-            getPasswordAuthentication()
-            {
-                Map<String,String> configuration =
-                    itsConfiguration.get();
-                String user = configuration.get("mail.smtp.user");
-                String password = configuration.get("mail.smtp.password");
+                {
+                    @Override
+                    protected PasswordAuthentication
+                    getPasswordAuthentication()
+                    {
+                        Map<String,String> configuration =
+                            itsConfiguration.get();
+                        String user = configuration.get("mail.smtp.user");
+                        String password = configuration.get("mail.smtp.password");
 
-                return new PasswordAuthentication(user,password);
-            }
-        });
+                        return new PasswordAuthentication(user,password);
+                    }
+                });
 
         return this;
     }

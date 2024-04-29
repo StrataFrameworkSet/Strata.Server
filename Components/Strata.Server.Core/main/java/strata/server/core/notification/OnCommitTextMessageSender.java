@@ -29,7 +29,7 @@ class OnCommitTextMessageSender
     open()
     {
         manager.executeAfterCommit(() -> implementation.open());
-        return null;
+        return this;
     }
 
     @Override
@@ -37,7 +37,7 @@ class OnCommitTextMessageSender
     close()
     {
         manager.executeAfterCommit(() -> implementation.close());
-        return null;
+        return this;
     }
 
     @Override
@@ -45,7 +45,7 @@ class OnCommitTextMessageSender
     send(ITextMessage message)
     {
         manager.executeAfterCommit(() -> implementation.send(message));
-        return null;
+        return this;
     }
 
     @Override

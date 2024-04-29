@@ -54,6 +54,9 @@ interface IUnitOfWork
     <K extends Serializable,E> Map<K,Boolean>
     existsByIdIn(Class<E> type,String idProperty,Iterable<K> ids);
 
+    <E> int
+    executeUpdateOrDelete(String queryName,Map<String,Object> parameters);
+
     <E,S extends E> boolean
     isManaged(S entity);
 

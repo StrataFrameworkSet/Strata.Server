@@ -14,7 +14,7 @@ import strata.server.core.inject.SecureEmailConfigurationProvider;
 import java.io.InputStream;
 import java.util.UUID;
 
-@Tag("IntegrationStage")
+@Tag("CommitStage")
 public
 class JavaMailMessageSenderTest
 {

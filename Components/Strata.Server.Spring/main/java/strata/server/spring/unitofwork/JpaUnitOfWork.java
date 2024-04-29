@@ -5,10 +5,7 @@
 package strata.server.spring.unitofwork;
 
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -72,7 +69,7 @@ class JpaUnitOfWork
         OptionalExtension
             .ifPresentOrThrowNoReturn(
                 manager,
-                mgr -> mgr.remove(entity),
+                mgr -> mgr.remove(mgr.merge(entity)),
                 createUnitOfWorkNotBegun());
     }
 
@@ -350,6 +347,31 @@ class JpaUnitOfWork
                     Collectors.toMap(
                         pair -> pair.getFirst(),
                         pair -> pair.getSecond()));
+    }
+
+    @Override
+    public <E> int
+    executeUpdateOrDelete(String queryName,Map<String,Object> parameters)
+    {
+        return
+            OptionalExtension
+                .ifPresentOrThrow(
+                    manager,
+                    mgr ->
+                    {
+                        Query query =
+                            mgr.createQuery(getQuery(queryName));
+
+                        parameters
+                            .entrySet()
+                            .stream()
+                            .forEach(
+                                entry ->
+                                    query.setParameter(entry.getKey(),entry.getValue()));
+
+                        return query.executeUpdate();
+                    },
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
