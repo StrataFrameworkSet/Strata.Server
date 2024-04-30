@@ -15,6 +15,9 @@ class PersonNameConverter
     public String
     convertToDatabaseColumn(PersonName attribute)
     {
+        if (attribute == null)
+            return null;
+
         return
             new StringBuilder()
                 .append(attribute.getLastName())
@@ -31,6 +34,9 @@ class PersonNameConverter
     public PersonName
     convertToEntityAttribute(String dbData)
     {
+        if (dbData == null)
+            return null;
+
         String[] fields = dbData.split(",");
 
         if (fields.length != 4)

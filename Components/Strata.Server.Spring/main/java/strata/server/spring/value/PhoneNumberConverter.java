@@ -15,14 +15,14 @@ class PhoneNumberConverter
     public String
     convertToDatabaseColumn(PhoneNumber attribute)
     {
-        return attribute.getDigitsOnly();
+        return attribute != null ? attribute.getDigitsOnly() : null;
     }
 
     @Override
     public PhoneNumber
     convertToEntityAttribute(String dbData)
     {
-        return new PhoneNumber(dbData);
+        return dbData != null ? new PhoneNumber(dbData) : null;
     }
 }
 

@@ -15,14 +15,15 @@ class EmailAddressConverter
     public String
     convertToDatabaseColumn(EmailAddress attribute)
     {
-        return attribute.toString();
+        return attribute != null ? attribute.toString() : null;
     }
 
     @Override
     public EmailAddress
     convertToEntityAttribute(String dbData)
     {
-        return new EmailAddress(dbData);
+
+        return dbData != null ? new EmailAddress(dbData) : null;
     }
 }
 
