@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings>
+    xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="1.0"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+    <description>PostalAddress object relational entity mappings</description>
+
+    <embeddable class="strata.foundation.core.value.PostalAddress" access="FIELD">
+        <attributes>
+            <basic name="itsAddress">
+                <column name="address"/>
+            </basic>
+            <basic name="itsStreet">
+                <column name="street"/>
+            </basic>
+            <basic name="itsCity">
+                <column name="city"/>
+            </basic>
+            <basic name="itsState">
+                <column name="state"/>
+            </basic>
+            <basic name="itsCountryCode">
+                <column name="countryCode"/>
+            </basic>
+            <basic name="itsPostalCode">
+                <column name="postalCode"/>
+            </basic>
+        </attributes>
+    </embeddable>
+
+</entity-mappings>
