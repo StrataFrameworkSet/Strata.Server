@@ -71,6 +71,16 @@ class SecureEmailConfigurationProvider
         configuration.put(
             itsMailPasswordKey,
             itsConfiguration.getProperty(itsMailPasswordKey));
+
+        itsConfiguration
+            .stream()
+            .filter(property -> property.getFirst().startsWith("mail."))
+            .forEach(
+                property ->
+                    configuration.put(
+                        property.getFirst(),
+                        property.getSecond().toString()));
+
         configuration.put("mail.smtp.auth","true");
         configuration.put("mail.smtp.starttls.enable","true");
 

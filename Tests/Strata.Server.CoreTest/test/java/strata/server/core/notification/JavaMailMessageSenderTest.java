@@ -7,12 +7,15 @@ package strata.server.core.notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.core.configuration.SecureConfiguration;
 import strata.foundation.core.value.EmailAddress;
 import strata.server.core.inject.SecureEmailConfigurationProvider;
 
 import java.io.InputStream;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("CommitStage")
 public
@@ -48,7 +51,7 @@ class JavaMailMessageSenderTest
     {
         IEmailMessage message =
             itsBuilder
-                .setSender(new EmailAddress("ezvaluator@gmail.com"))
+                .setSender(new EmailAddress("support@sayin.app"))
                 .addRecipient(new EmailAddress("johnliebenau@gmail.com"))
                 .setSubject("Email Sender Test")
                 .setTemplateKey("HelloWorld")
@@ -65,7 +68,7 @@ class JavaMailMessageSenderTest
     {
         IEmailMessage message =
             itsBuilder
-                .setSender(new EmailAddress("ezvaluator@gmail.com"))
+                .setSender(new EmailAddress("support@sayin.app"))
                 .addRecipient(new EmailAddress("johnliebenau@gmail.com"))
                 .addRecipient(new EmailAddress("lama90703@yahoo.com"))
                 .setSubject("Email Sender Test")
