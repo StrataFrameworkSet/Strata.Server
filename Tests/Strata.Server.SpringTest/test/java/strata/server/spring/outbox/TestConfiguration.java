@@ -2,26 +2,31 @@
 // TestConfiguration.java
 //////////////////////////////////////////////////////////////////////////////
 
-package strata.server.spring.repository;
+package strata.server.spring.outbox;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.core.inject.ApplicationConfigurationProvider;
-import strata.server.core.repository.FooBarRepository;
-import strata.server.core.repository.FooRepository;
-import strata.server.core.repository.IFooBarRepository;
-import strata.server.core.repository.IFooRepository;
+import strata.foundation.spring.mapper.StrataObjectMapperProvider;
+import strata.server.core.outbox.*;
+import strata.server.core.outbox.IOutboxEventRepository;
+import strata.server.core.outbox.OutboxEventRepository;
 import strata.server.core.unitofwork.IUnitOfWork;
-import strata.server.core.unitofwork.IUnitOfWorkManager;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
+import strata.server.spring.repository.JpaRepositoryFactoryProvider;
+import strata.server.spring.repository.JpaTransactionManagerProvider;
+import strata.server.spring.repository.LocalContainerEntityManagerFactoryBeanProvider;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
 import strata.server.spring.unitofwork.JpaUnitOfWorkManager;
 import strata.server.spring.unitofwork.SpringUnitOfWorkSynchronizationManager;
@@ -29,7 +34,7 @@ import strata.server.spring.unitofwork.SpringUnitOfWorkSynchronizationManager;
 @Configuration
 @EnableTransactionManagement
 public
-class TestSpringConfiguration
+class TestConfiguration
 {
     @Bean
     public IConfiguration
@@ -85,14 +90,6 @@ class TestSpringConfiguration
             new JpaRepositoryFactoryProvider(entityManager)
                 .get();
     }
-    /*
-    @Bean
-    public IFooRepository
-    fooRepository(RepositoryFactorySupport repositoryFactory)
-    {
-        return repositoryFactory.getRepository(ISpringFooRepository.class);
-    }
-    */
 
     @Bean
     public IUnitOfWork
@@ -102,24 +99,17 @@ class TestSpringConfiguration
     }
 
     @Bean
-    public IFooRepository
-    fooRepository(IUnitOfWork unitOfWork)
+    public IEmailMessageOutboxEventFactory
+    emailMessageOutboxActionFactory(ObjectMapper mapper)
     {
-        return new FooRepository(unitOfWork);
+        return new EmailMessageOutboxEventFactory(mapper);
     }
 
     @Bean
-    public IFooBarRepository
-    fooBarRepository(IUnitOfWork unitOfWork)
+    public IOutboxEventRepository
+    outboxActionRepository(IUnitOfWork unitOfWork)
     {
-        return new FooBarRepository(unitOfWork);
-    }
-
-    @Bean
-    public IFooJpaRepository
-    jpaRepository(RepositoryFactorySupport repositoryFactory)
-    {
-        return repositoryFactory.getRepository(IFooJpaRepository.class);
+        return new OutboxEventRepository(unitOfWork);
     }
 
     @Bean
@@ -128,6 +118,24 @@ class TestSpringConfiguration
     {
         return new SpringUnitOfWorkSynchronizationManager();
     }
+
+    @Bean
+    @Scope("singleton")
+    public ObjectMapper
+    objectMapper(SpringDocConfigProperties properties)
+    {
+        HttpMessageNotReadableException resolver;
+        return new StrataObjectMapperProvider(properties).jsonMapper();
+    }
+
+    @Bean
+    @Scope("singleton")
+    public SpringDocConfigProperties
+    springDocConfigProperties()
+    {
+        return new SpringDocConfigProperties();
+    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////

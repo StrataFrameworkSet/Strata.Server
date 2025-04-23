@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings>
+    xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="3.1"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd">
+    <description>OutboxAction object relational entity mappings</description>
+
+    <entity class="strata.server.core.outbox.OutboxEvent" access="PROPERTY">
+        <table name="OutboxEvent"/>
+        <attributes>
+            <id name="id">
+                <column name="id"/>
+                <generated-value strategy="UUID"/>
+            </id>
+            <basic name="sourceType" >
+                <column name="sourceType"/>
+            </basic>
+            <basic name="sourceId">
+                <column name="sourceId"/>
+            </basic>
+            <basic name="eventType">
+                <column name="eventType"/>
+            </basic>
+            <basic name="eventPayload">
+                <column name="eventPayload" length="5000000"/>
+            </basic>
+        </attributes>
+    </entity>
+
+</entity-mappings>

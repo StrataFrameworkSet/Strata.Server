@@ -4,6 +4,8 @@
 
 package strata.server.core.notification;
 
+import java.io.Serializable;
+
 public
 interface IAttachment
 {

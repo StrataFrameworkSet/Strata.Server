@@ -11,7 +11,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import strata.foundation.core.container.Pair;
-import strata.foundation.core.utility.BooleanResult;
+import strata.foundation.core.utility.Conditional;
 import strata.foundation.core.utility.OptionalExtension;
 import strata.server.core.unitofwork.IUnitOfWork;
 
@@ -228,7 +228,7 @@ class JpaUnitOfWork
                             .stream()
                             .forEach(
                                 entry ->
-                                    BooleanResult
+                                    Conditional
                                         .of(predicate.get() == null)
                                         .ifTrueOrElse(
                                             () ->

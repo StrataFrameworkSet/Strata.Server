@@ -5,6 +5,8 @@
 package strata.server.core.notification;
 
 import jakarta.inject.Inject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import strata.server.core.inject.IEmailConfigurationProvider;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
 
@@ -14,6 +16,7 @@ class OnCommitEmailMessageSender
 {
     private IEmailMessageSender               implementation;
     private IUnitOfWorkSynchronizationManager manager;
+    private Logger                            logger;
 
     @Inject
     public
@@ -23,13 +26,19 @@ class OnCommitEmailMessageSender
     {
         implementation = new JavaMailMessageSender(cfg);
         manager        = mgr;
+        logger         = LogManager.getLogger(OnCommitEmailMessageSender.class);
     }
 
     @Override
     public IEmailMessageSender
     open()
     {
-        manager.executeAfterCommit(() -> implementation.open());
+        manager.executeAfterCommit(
+            () ->
+            {
+                logger.debug("Executing OnCommitEmailMessageSender.open()");
+                implementation.open();
+            });
         return this;
     }
 
@@ -37,7 +46,12 @@ class OnCommitEmailMessageSender
     public IEmailMessageSender
     close()
     {
-        manager.executeAfterCommit(() -> implementation.close());
+        manager.executeAfterCommit(
+            () ->
+            {
+                logger.debug("Executing OnCommitEmailMessageSender.close()");
+                implementation.close();
+            });
         return this;
     }
 
@@ -45,7 +59,12 @@ class OnCommitEmailMessageSender
     public IEmailMessageSender
     send(IEmailMessage message)
     {
-        manager.executeAfterCommit(() -> implementation.send(message));
+        manager.executeAfterCommit(
+            () ->
+            {
+                logger.debug("Executing OnCommitEmailMessageSender.send(message)");
+                implementation.send(message);
+            });
         return this;
     }
 
