@@ -81,6 +81,16 @@ class SerializableAttachment
     {
         return contentType.startsWith("image/");
     }
+
+    public static SerializableAttachment
+    of(IAttachment attachment)
+    {
+        return
+            new SerializableAttachment()
+                .setContentId(attachment.getContentId())
+                .setContentType(attachment.getContentType())
+                .setBytes(attachment.getBytes());
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -104,6 +104,23 @@ class SerializableEmailMessage
                 .stream()
                 .collect(Collectors.toList());
     }
+
+    public static SerializableEmailMessage
+    of(IEmailMessage emailMessage)
+    {
+        return
+            new SerializableEmailMessage()
+                .setSender(emailMessage.getSender())
+                .setRecipients(emailMessage.getRecipients())
+                .setSubject(emailMessage.getSubject())
+                .setContent(emailMessage.getContent())
+                .setAttachments(
+                    emailMessage
+                        .getAttachments()
+                        .stream()
+                        .map(SerializableAttachment::of)
+                        .collect(Collectors.toSet()));
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
