@@ -34,15 +34,14 @@ rootProject.name = 'Strata.Server'
 // Components
 include 'Components:Strata.Server.Core'
 include 'Components:Strata.Server.Spring'
-include 'Components:Strata.Server.Reactor'
-include 'Components:Strata.Server.Helidon'
+//include 'Components:Strata.Server.Reactor'
+//include 'Components:Strata.Server.Helidon'
 
 // Tests
 include 'Tests:Strata.Server.CoreTest'
 include 'Tests:Strata.Server.SpringTest'
-include 'Tests:Strata.Server.ReactorTest'
-include 'Tests:Strata.Server.HelidonTest'
+//include 'Tests:Strata.Server.ReactorTest'
+//include 'Tests:Strata.Server.HelidonTest'
 include 'Tests:Strata.Server.TestSuite'
-include 'Applications:Strata.Server.HelloServiceHost'
-findProject(':Applications:Strata.Server.HelloServiceHost')?.name = 'Strata.Server.HelloServiceHost'
+
 

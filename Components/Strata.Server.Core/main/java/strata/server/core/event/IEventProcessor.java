@@ -1,15 +1,14 @@
 //////////////////////////////////////////////////////////////////////////////
-// IOutboxEventRepository.java
+// IEventProcessor.java
 //////////////////////////////////////////////////////////////////////////////
 
-package strata.server.core.outbox;
-
-import strata.server.core.repository.IRepository;
-
-import java.util.UUID;
+package strata.server.core.event;
 
 public
-interface IOutboxEventRepository
-    extends IRepository<UUID,OutboxEvent> {}
+interface IEventProcessor<E>
+{
+    void
+    process(E event);
+}
 
 //////////////////////////////////////////////////////////////////////////////

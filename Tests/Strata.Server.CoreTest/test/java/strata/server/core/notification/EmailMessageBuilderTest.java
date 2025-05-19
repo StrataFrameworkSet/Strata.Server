@@ -8,6 +8,7 @@ package strata.server.core.notification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import strata.foundation.core.event.StandardEventType;
 import strata.foundation.core.value.EmailAddress;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
