@@ -1,12 +1,18 @@
 //////////////////////////////////////////////////////////////////////////////
-// IEventProcessor.java
+// ITransactionalEventProcessor.java
 //////////////////////////////////////////////////////////////////////////////
 
 package strata.server.core.event;
 
+import jakarta.transaction.Transactional;
+import strata.foundation.core.event.IEventProcessor;
+
 public
-interface IEventProcessor<E>
+interface ITransactionalEventProcessor<E>
+    extends IEventProcessor<E>
 {
+    @Override
+    @Transactional
     void
     process(E event);
 }

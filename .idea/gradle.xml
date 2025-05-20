@@ -9,17 +9,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Applications" />
-            <option value="$PROJECT_DIR$/Applications/Strata.Server.HelloServiceHost" />
             <option value="$PROJECT_DIR$/Components" />
             <option value="$PROJECT_DIR$/Components/Strata.Server.Core" />
-            <option value="$PROJECT_DIR$/Components/Strata.Server.Helidon" />
-            <option value="$PROJECT_DIR$/Components/Strata.Server.Reactor" />
             <option value="$PROJECT_DIR$/Components/Strata.Server.Spring" />
             <option value="$PROJECT_DIR$/Tests" />
             <option value="$PROJECT_DIR$/Tests/Strata.Server.CoreTest" />
-            <option value="$PROJECT_DIR$/Tests/Strata.Server.HelidonTest" />
-            <option value="$PROJECT_DIR$/Tests/Strata.Server.ReactorTest" />
             <option value="$PROJECT_DIR$/Tests/Strata.Server.SpringTest" />
             <option value="$PROJECT_DIR$/Tests/Strata.Server.TestSuite" />
           </set>

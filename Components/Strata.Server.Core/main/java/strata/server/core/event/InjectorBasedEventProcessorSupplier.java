@@ -11,8 +11,8 @@ import java.lang.annotation.Annotation;
 import java.util.Optional;
 
 public
-class InjectorBasedEventProcessorSupplier<E,P extends IEventProcessor<E>>
-    implements IEventProcessorSupplier<E,P>
+class InjectorBasedEventProcessorSupplier<E,P extends ITransactionalEventProcessor<E>>
+    implements java.util.function.Supplier<P>
 {
     private final IInjector            injector;
     private final Class<P>             processorType;

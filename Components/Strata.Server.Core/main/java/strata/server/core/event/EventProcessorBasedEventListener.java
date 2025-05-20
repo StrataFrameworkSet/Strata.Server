@@ -7,6 +7,7 @@ package strata.server.core.event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import strata.foundation.core.event.IEventListener;
+import strata.foundation.core.event.IEventProcessorSupplier;
 import strata.foundation.core.event.StartException;
 
 import java.util.Optional;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public abstract
 class EventProcessorBasedEventListener<
     E,
-    P extends IEventProcessor<E>>
+    P extends ITransactionalEventProcessor<E>>
     implements IEventListener<E>
 {
     private final IEventProcessorSupplier<E,P> supplier;
