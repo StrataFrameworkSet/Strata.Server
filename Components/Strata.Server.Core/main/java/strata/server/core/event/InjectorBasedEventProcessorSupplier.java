@@ -4,6 +4,7 @@
 
 package strata.server.core.event;
 
+import strata.foundation.core.event.IEventProcessor;
 import strata.foundation.core.inject.IInjector;
 import strata.foundation.core.utility.OptionalExtension;
 
@@ -11,7 +12,7 @@ import java.lang.annotation.Annotation;
 import java.util.Optional;
 
 public
-class InjectorBasedEventProcessorSupplier<E,P extends ITransactionalEventProcessor<E>>
+class InjectorBasedEventProcessorSupplier<E,P extends IEventProcessor<E>>
     implements java.util.function.Supplier<P>
 {
     private final IInjector            injector;
