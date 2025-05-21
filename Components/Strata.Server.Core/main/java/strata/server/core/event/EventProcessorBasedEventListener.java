@@ -11,6 +11,7 @@ import strata.foundation.core.event.IEventProcessor;
 import strata.foundation.core.event.IEventProcessorSupplier;
 import strata.foundation.core.event.StartException;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public abstract
@@ -58,10 +59,17 @@ class EventProcessorBasedEventListener<
 
     @Override
     public void
+    onEvents(Collection<E> events)
+    {
+        logger.info("Processing {} events", events.size());
+        processor.ifPresent(p -> p.process(events));
+    }
+
+    @Override
+    public void
     onEvent(E event)
     {
-        logger.info("Processing event: {}", event);
-        processor.ifPresent(p -> p.process(event));
+        throw new UnsupportedOperationException("onEvent(E) is not supported.");
     }
 
     @Override
