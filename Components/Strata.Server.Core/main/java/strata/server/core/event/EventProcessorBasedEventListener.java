@@ -67,13 +67,6 @@ class EventProcessorBasedEventListener<
 
     @Override
     public void
-    onEvent(E event)
-    {
-        throw new UnsupportedOperationException("onEvent(E) is not supported.");
-    }
-
-    @Override
-    public void
     onException(Exception e)
     {
         logger.error("Exception during event processing.",e);
