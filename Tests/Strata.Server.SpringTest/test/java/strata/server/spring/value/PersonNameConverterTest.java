@@ -7,6 +7,7 @@ package strata.server.spring.value;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import strata.foundation.core.container.Pair;
@@ -28,9 +29,9 @@ class PersonNameConverterTest
     {
         return
             Stream.of(
-                Pair.create(new PersonName("John","Friedrich","Liebenau"),"Liebenau,John,Friedrich,***"),
-                Pair.create(new PersonName("Dr","Ayham",null,"Al-Zoebi"),"Al-Zoebi,Ayham,***,Dr"),
-                Pair.create(new PersonName("Aghyan","Al-Zuabi"),"Al-Zuabi,Aghyan,***,***"));
+                Pair.create(new PersonName("John","Friedrich","Liebenau"),"Liebenau,John,Friedrich,***,***"),
+                Pair.create(new PersonName("Dr","Ayham",null,"Al-Zoebi",null),"Al-Zoebi,Ayham,***,Dr,***"),
+                Pair.create(new PersonName("Aghyan","Al-Zuabi"),"Al-Zuabi,Aghyan,***,***,***"));
     }
 
     @BeforeEach
@@ -53,6 +54,16 @@ class PersonNameConverterTest
             input.getFirst(),
             subject.convertToEntityAttribute(
                 subject.convertToDatabaseColumn(input.getFirst())));
+    }
+
+    @Test
+    public void
+    testOldFormat()
+    {
+        PersonName name = new PersonName("John","Friedrich","Liebenau");
+        String oldFormat = "Liebenau,John,Friedrich,***,***";
+
+        assertEquals(name, subject.convertToEntityAttribute(oldFormat));
     }
 }
 

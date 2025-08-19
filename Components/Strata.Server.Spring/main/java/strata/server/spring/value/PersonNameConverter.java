@@ -20,13 +20,15 @@ class PersonNameConverter
 
         return
             new StringBuilder()
-                .append(attribute.getLastName())
+                .append(attribute.getLastName()) // 0
                 .append(',')
-                .append(attribute.getFirstName())
+                .append(attribute.getFirstName()) // 1
                 .append(',')
-                .append(attribute.getMiddleName().orElse("***"))
+                .append(attribute.getMiddleName().orElse("***")) // 2
                 .append(',')
-                .append(attribute.getTitle().orElse("***"))
+                .append(attribute.getTitle().orElse("***")) // 3
+                .append(',')
+                .append(attribute.getSuffix().orElse("***")) // 4
                 .toString();
     }
 
@@ -39,20 +41,31 @@ class PersonNameConverter
 
         String[] fields = dbData.split(",");
 
-        if (fields.length != 4)
+        if (fields.length == 4)
+            return new PersonName(
+                getFieldValue(fields[3]),  // title
+                getFieldValue(fields[1]),  // first name
+                getFieldValue(fields[2]),  // middle name
+                getFieldValue(fields[0]),  // last name
+                null);                     // suffix
+
+        if (fields.length != 5)
             throw new IllegalArgumentException(
-                "Incorrect number of fields: expected 4, actual " + fields.length);
+                "Incorrect number of fields: expected 5, actual " + fields.length);
 
-        if (fields[2].equals("***"))
-            if (fields[3].equals("***"))
-                return new PersonName(fields[1],fields[0]);
-            else
-                return new PersonName(fields[3],fields[1],null,fields[0]);
-        else
-            if (fields[3].equals("***"))
-                return new PersonName(fields[1],fields[2],fields[0]);
+        return
+            new PersonName(
+                getFieldValue(fields[3]),  // title
+                getFieldValue(fields[1]),  // first name
+                getFieldValue(fields[2]),  // middle name
+                getFieldValue(fields[0]),  // last name
+                getFieldValue(fields[4])); // suffix
+    }
 
-        return new PersonName(fields[3],fields[1],fields[2],fields[0]);
+    private String
+    getFieldValue(String field)
+    {
+        return field.equals("***") ? null : field;
     }
 }
 
