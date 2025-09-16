@@ -6,6 +6,11 @@
 
 Server-side components and utilities for building robust, scalable enterprise server applications in the Strata Framework Set. This library provides core server abstractions, Spring Framework integration, ORM mappings, and enterprise patterns for building high-performance server applications.
 
+## Purpose
+- Provide a unified developer experience across popular frameworks, libraries, and language platforms.
+- Reduce impedance mismatch between different technologies.
+- Facilitate rapid development of enterprise-grade applications with best practices and design patterns.
+
 ## Features
 
 - **Server Core Abstractions**: Essential interfaces and utilities for enterprise server application development
