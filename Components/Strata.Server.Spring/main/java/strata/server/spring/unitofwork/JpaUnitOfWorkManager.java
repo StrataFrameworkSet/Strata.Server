@@ -71,6 +71,14 @@ class JpaUnitOfWorkManager
         if (status.getTransaction() instanceof JpaUnitOfWork uow)
             uow.rollback();
     }
+
+    @Override
+    protected void
+    doCleanupAfterCompletion(Object transaction)
+    {
+        if (transaction instanceof JpaUnitOfWork uow)
+            uow.close();
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////

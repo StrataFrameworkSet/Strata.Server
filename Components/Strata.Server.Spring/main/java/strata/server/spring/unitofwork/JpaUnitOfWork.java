@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import strata.foundation.core.container.Pair;
 import strata.foundation.core.utility.Conditional;
+import strata.foundation.core.utility.ExtendedOptional;
 import strata.foundation.core.utility.OptionalExtension;
 import strata.server.core.unitofwork.IUnitOfWork;
 
@@ -25,16 +26,16 @@ public
 class JpaUnitOfWork
     implements IUnitOfWork
 {
-    private EntityManagerFactory     factory;
-    private Optional<EntityManager>  manager;
-    private final Map<String,String> queries;
+    private EntityManagerFactory            factory;
+    private ExtendedOptional<EntityManager> manager;
+    private final Map<String,String>        queries;
 
     @Inject
     public
     JpaUnitOfWork(EntityManagerFactory f)
     {
         factory = f;
-        manager = Optional.empty();
+        manager = ExtendedOptional.empty();
         queries = new HashMap<>();
     }
 
@@ -43,9 +44,8 @@ class JpaUnitOfWork
     save(S entity)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr -> mgr.merge(entity),
                     createUnitOfWorkNotBegun());
 
@@ -66,9 +66,8 @@ class JpaUnitOfWork
     public <E> void
     delete(E entity)
     {
-        OptionalExtension
+        manager
             .ifPresentOrThrowNoReturn(
-                manager,
                 mgr -> mgr.remove(mgr.merge(entity)),
                 createUnitOfWorkNotBegun());
     }
@@ -87,9 +86,8 @@ class JpaUnitOfWork
     findById(Class<E> type,K id)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr -> Optional.ofNullable(mgr.find(type,id)),
                     createUnitOfWorkNotBegun());
     }
@@ -99,9 +97,8 @@ class JpaUnitOfWork
     findAll(Class<E> type)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         CriteriaBuilder builder = mgr.getCriteriaBuilder();
@@ -121,9 +118,8 @@ class JpaUnitOfWork
     findAllByIdIn(Class<E> type,String idProperty,Iterable<K> ids)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         CriteriaBuilder builder = mgr.getCriteriaBuilder();
@@ -149,9 +145,8 @@ class JpaUnitOfWork
     findOneByCriteria(Class<E> type,String propertyName,Object propertyValue)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         CriteriaBuilder builder = mgr.getCriteriaBuilder();
@@ -185,9 +180,8 @@ class JpaUnitOfWork
     findManyByCriteria(Class<E> type,String propertyName,Object propertyValue)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         CriteriaBuilder builder = mgr.getCriteriaBuilder();
@@ -213,9 +207,8 @@ class JpaUnitOfWork
     findManyByCriteria(Class<E> type,Map<String,Object> propertyCriteria)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         CriteriaBuilder builder = mgr.getCriteriaBuilder();
@@ -260,9 +253,8 @@ class JpaUnitOfWork
         try
         {
             return
-                OptionalExtension
+                manager
                     .ifPresentOrThrow(
-                        manager,
                         mgr ->
                         {
                             TypedQuery<E> typedQuery =
@@ -290,9 +282,8 @@ class JpaUnitOfWork
     findManyByQuery(Class<E> type,String queryName,Map<String,Object> parameters)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         TypedQuery<E> typedQuery =
@@ -315,9 +306,8 @@ class JpaUnitOfWork
     existsById(Class<E> type,String idProperty,K id)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         CriteriaBuilder builder = mgr.getCriteriaBuilder();
@@ -354,9 +344,8 @@ class JpaUnitOfWork
     executeUpdateOrDelete(String queryName,Map<String,Object> parameters)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         Query query =
@@ -379,9 +368,8 @@ class JpaUnitOfWork
     isManaged(S entity)
     {
         return
-            OptionalExtension
+            manager
                 .ifPresentOrThrow(
-                    manager,
                     mgr ->
                     {
                         if (mgr.contains(entity))
@@ -396,7 +384,7 @@ class JpaUnitOfWork
     public IUnitOfWork
     begin()
     {
-        manager = Optional.of(factory.createEntityManager());
+        manager = ExtendedOptional.of(factory.createEntityManager());
 
         manager
             .ifPresent(
@@ -412,15 +400,13 @@ class JpaUnitOfWork
     commit()
     {
             return
-                OptionalExtension
+                manager
                     .ifPresentOrThrow(
-                        manager,
                         mgr ->
                         {
                             mgr
                                 .getTransaction()
                                 .commit();
-                            manager = Optional.empty();
                             return this;
                         },
                         createUnitOfWorkNotBegun());
@@ -431,18 +417,32 @@ class JpaUnitOfWork
     rollback()
     {
             return
-                OptionalExtension
+                manager
                     .ifPresentOrThrow(
-                        manager,
                         mgr ->
                         {
                             mgr
                                 .getTransaction()
                                 .rollback();
-                            manager = Optional.empty();
                             return this;
                         },
                         createUnitOfWorkNotBegun());
+    }
+
+    @Override
+    public void
+    close()
+    {
+        manager.ifPresent(
+            mgr ->
+            {
+                if (mgr.getTransaction().isActive())
+                    mgr.getTransaction().rollback();
+
+                mgr.close();
+                manager = ExtendedOptional.empty();
+            }
+        );
     }
 
     @Override

@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
 }
 
+
 sourceSets {
     test.java.srcDirs = ['test/java']
     test.resources.srcDirs = ['test/resources']
@@ -14,11 +15,11 @@ dependencies {
     testImplementation project(':Components:Strata.Server.Spring')
     testImplementation(testFixtures(project(':Tests:Strata.Server.CoreTest')))
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.3'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
-    testImplementation 'org.postgresql:postgresql:42.6.0'
-    testImplementation 'com.h2database:h2:2.1.214'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.3'  // Updated for Java 22 compatibility
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
+    testImplementation 'org.postgresql:postgresql:42.7.4'  // Updated for Java 22 compatibility
+    testImplementation 'com.h2database:h2:2.3.232'  // Updated for Java 22 compatibility
 }
 
 test {

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public
 interface IUnitOfWork
+    extends AutoCloseable
 {
     <E,S extends E> S
     save(S entity);
@@ -68,6 +69,10 @@ interface IUnitOfWork
 
     IUnitOfWork
     rollback();
+
+    @Override
+    void
+    close();
 
     IUnitOfWork
     registerQuery(String queryName,String queryBody);
