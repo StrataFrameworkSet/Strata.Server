@@ -10,6 +10,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import strata.foundation.core.container.Pair;
 import strata.foundation.core.utility.Conditional;
 import strata.foundation.core.utility.ExtendedOptional;
@@ -29,6 +31,7 @@ class JpaUnitOfWork
     private EntityManagerFactory            factory;
     private ExtendedOptional<EntityManager> manager;
     private final Map<String,String>        queries;
+    private final Logger                    logger;
 
     @Inject
     public
@@ -37,12 +40,14 @@ class JpaUnitOfWork
         factory = f;
         manager = ExtendedOptional.empty();
         queries = new HashMap<>();
+        logger = LogManager.getLogger(getClass());
     }
 
     @Override
     public <E,S extends E> S
     save(S entity)
     {
+        logger.trace("save({})",entity);
         return
             manager
                 .ifPresentOrThrow(
@@ -55,6 +60,7 @@ class JpaUnitOfWork
     public <E,S extends E> List<S>
     saveAll(Iterable<S> entities)
     {
+        logger.trace("saveAll({})",entities);
         return
             StreamSupport
                 .stream(entities.spliterator(),false)
@@ -66,6 +72,7 @@ class JpaUnitOfWork
     public <E> void
     delete(E entity)
     {
+        logger.trace("delete({})",entity);
         manager
             .ifPresentOrThrowNoReturn(
                 mgr -> mgr.remove(mgr.merge(entity)),
@@ -76,6 +83,7 @@ class JpaUnitOfWork
     public <E> void
     deleteAll(Iterable<? extends E> entities)
     {
+        logger.trace("deleteAll({})",entities);
         StreamSupport
             .stream(entities.spliterator(),false)
             .forEach(entity -> delete(entity));
@@ -85,6 +93,7 @@ class JpaUnitOfWork
     public <K extends Serializable,E> Optional<E>
     findById(Class<E> type,K id)
     {
+        logger.trace("findById({},{})",type,id);
         return
             manager
                 .ifPresentOrThrow(
@@ -96,6 +105,7 @@ class JpaUnitOfWork
     public <E> List<E>
     findAll(Class<E> type)
     {
+        logger.trace("findAll({})",type);
         return
             manager
                 .ifPresentOrThrow(
@@ -117,6 +127,7 @@ class JpaUnitOfWork
     public <K extends Serializable,E> List<E>
     findAllByIdIn(Class<E> type,String idProperty,Iterable<K> ids)
     {
+        logger.trace("findAllByIdIn({},{},{})",type,idProperty,ids);
         return
             manager
                 .ifPresentOrThrow(
@@ -144,6 +155,7 @@ class JpaUnitOfWork
     public <E> Optional<E>
     findOneByCriteria(Class<E> type,String propertyName,Object propertyValue)
     {
+        logger.trace("findOneByCriteria({},{},{})",type,propertyName,propertyValue);
         return
             manager
                 .ifPresentOrThrow(
@@ -179,6 +191,7 @@ class JpaUnitOfWork
     public <E> List<E>
     findManyByCriteria(Class<E> type,String propertyName,Object propertyValue)
     {
+        logger.trace("findManyByCriteria({},{},{})",type,propertyName,propertyValue);
         return
             manager
                 .ifPresentOrThrow(
@@ -206,6 +219,7 @@ class JpaUnitOfWork
     public <E> List<E>
     findManyByCriteria(Class<E> type,Map<String,Object> propertyCriteria)
     {
+        logger.trace("findManyByCriteria({},{})",type,propertyCriteria);
         return
             manager
                 .ifPresentOrThrow(
@@ -250,6 +264,7 @@ class JpaUnitOfWork
     public <E> Optional<E>
     findOneByQuery(Class<E> type,String queryName,Map<String,Object> parameters)
     {
+        logger.trace("findOneByQuery({},{},{})",type,queryName,parameters);
         try
         {
             return
@@ -281,6 +296,7 @@ class JpaUnitOfWork
     public <E> List<E>
     findManyByQuery(Class<E> type,String queryName,Map<String,Object> parameters)
     {
+        logger.trace("findManyByQuery({},{},{})",type,queryName,parameters);
         return
             manager
                 .ifPresentOrThrow(
@@ -305,6 +321,7 @@ class JpaUnitOfWork
     public <K extends Serializable,E> boolean
     existsById(Class<E> type,String idProperty,K id)
     {
+        logger.trace("existsById({},{},{})",type,idProperty,id);
         return
             manager
                 .ifPresentOrThrow(
@@ -329,6 +346,7 @@ class JpaUnitOfWork
     public <K extends Serializable,E> Map<K,Boolean>
     existsByIdIn(Class<E> type,String idProperty,Iterable<K> ids)
     {
+        logger.trace("existsByIdIn({},{},{})",type,idProperty,ids);
         return
             StreamSupport
                 .stream(ids.spliterator(),false)
@@ -343,6 +361,7 @@ class JpaUnitOfWork
     public <E> int
     executeUpdateOrDelete(String queryName,Map<String,Object> parameters)
     {
+        logger.trace("executeUpdateOrDelete({},{})",queryName,parameters);
         return
             manager
                 .ifPresentOrThrow(
@@ -384,6 +403,7 @@ class JpaUnitOfWork
     public IUnitOfWork
     begin()
     {
+        logger.debug("begin()");
         manager = ExtendedOptional.of(factory.createEntityManager());
 
         manager
@@ -399,45 +419,51 @@ class JpaUnitOfWork
     public IUnitOfWork
     commit()
     {
-            return
-                manager
-                    .ifPresentOrThrow(
-                        mgr ->
-                        {
-                            mgr
-                                .getTransaction()
-                                .commit();
-                            return this;
-                        },
-                        createUnitOfWorkNotBegun());
+        logger.debug("commit()");
+        return
+            manager
+                .ifPresentOrThrow(
+                    mgr ->
+                    {
+                        mgr
+                            .getTransaction()
+                            .commit();
+                        return this;
+                    },
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
     public IUnitOfWork
     rollback()
     {
-            return
-                manager
-                    .ifPresentOrThrow(
-                        mgr ->
-                        {
-                            mgr
-                                .getTransaction()
-                                .rollback();
-                            return this;
-                        },
-                        createUnitOfWorkNotBegun());
+        logger.debug("rollback()");
+        return
+            manager
+                .ifPresentOrThrow(
+                    mgr ->
+                    {
+                        mgr
+                            .getTransaction()
+                            .rollback();
+                        return this;
+                    },
+                    createUnitOfWorkNotBegun());
     }
 
     @Override
     public void
     close()
     {
+        logger.debug("close()");
         manager.ifPresent(
             mgr ->
             {
                 if (mgr.getTransaction().isActive())
+                {
+                    logger.warn("Rolling back uncommitted transaction during close.");
                     mgr.getTransaction().rollback();
+                }
 
                 mgr.close();
                 manager = ExtendedOptional.empty();
