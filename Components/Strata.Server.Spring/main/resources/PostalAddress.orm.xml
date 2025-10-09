@@ -8,22 +8,22 @@
 
     <embeddable class="strata.foundation.core.value.PostalAddress" access="FIELD">
         <attributes>
-            <basic name="itsAddress">
+            <basic name="address">
                 <column name="address"/>
             </basic>
-            <basic name="itsStreet">
+            <basic name="street">
                 <column name="street"/>
             </basic>
-            <basic name="itsCity">
+            <basic name="city">
                 <column name="city"/>
             </basic>
-            <basic name="itsState">
+            <basic name="state">
                 <column name="state"/>
             </basic>
-            <basic name="itsCountryCode">
+            <basic name="countryCode">
                 <column name="countryCode"/>
             </basic>
-            <basic name="itsPostalCode">
+            <basic name="postalCode">
                 <column name="postalCode"/>
             </basic>
         </attributes>
