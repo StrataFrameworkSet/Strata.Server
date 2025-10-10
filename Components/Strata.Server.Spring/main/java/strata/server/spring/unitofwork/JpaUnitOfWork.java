@@ -12,10 +12,9 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import strata.foundation.core.container.Pair;
+import strata.foundation.core.collection.Pair;
 import strata.foundation.core.utility.Conditional;
 import strata.foundation.core.utility.ExtendedOptional;
-import strata.foundation.core.utility.OptionalExtension;
 import strata.server.core.unitofwork.IUnitOfWork;
 
 import java.io.Serializable;
