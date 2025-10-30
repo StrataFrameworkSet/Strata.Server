@@ -7,6 +7,8 @@ package strata.server.spring.value;
 import jakarta.persistence.AttributeConverter;
 import strata.foundation.core.value.PersonName;
 
+import java.util.Objects;
+
 public
 class PersonNameConverter
     implements AttributeConverter<PersonName,String>
@@ -20,15 +22,15 @@ class PersonNameConverter
 
         return
             new StringBuilder()
-                .append(attribute.getLastName()) // 0
+                .append(normalize(attribute.getLastName())) // 0
                 .append(',')
-                .append(attribute.getFirstName()) // 1
+                .append(normalize(attribute.getFirstName())) // 1
                 .append(',')
-                .append(attribute.getMiddleName().orElse("***")) // 2
+                .append(normalize(attribute.getMiddleName().orElse("***"))) // 2
                 .append(',')
-                .append(attribute.getTitle().orElse("***")) // 3
+                .append(normalize(attribute.getTitle().orElse("***"))) // 3
                 .append(',')
-                .append(attribute.getSuffix().orElse("***")) // 4
+                .append(normalize(attribute.getSuffix().orElse("***"))) // 4
                 .toString();
     }
 
@@ -65,7 +67,21 @@ class PersonNameConverter
     private String
     getFieldValue(String field)
     {
-        return field.equals("***") ? null : field;
+        return
+            field.equals("***")
+                ? null
+                : field.replace("_", ",");
+    }
+
+    private String
+    normalize(String value)
+    {
+        if (Objects.isNull(value))
+            return null;
+
+        String trimmed = value.trim();
+
+        return trimmed.replace(",","_");
     }
 }
 
