@@ -15,7 +15,7 @@ class PhoneNumberConverter
     public String
     convertToDatabaseColumn(PhoneNumber attribute)
     {
-        return attribute != null ? attribute.getDigitsOnly() : null;
+        return attribute != null ? attribute.toString() : null;
     }
 
     @Override
