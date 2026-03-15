@@ -5,7 +5,7 @@
 package strata.server.core.inject;
 
 
-import com.google.inject.Provider;
+import jakarta.inject.Provider;
 
 import java.util.Map;
 

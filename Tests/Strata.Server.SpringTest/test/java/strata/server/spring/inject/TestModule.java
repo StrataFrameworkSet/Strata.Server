@@ -5,7 +5,7 @@
 package strata.server.spring.inject;
 
 import com.google.inject.TypeLiteral;
-import strata.foundation.core.inject.AbstractModule;
+import strata.foundation.guice.inject.AbstractModule;
 
 import java.util.ArrayList;
 import java.util.List;

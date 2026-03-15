@@ -10,7 +10,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import strata.foundation.core.configuration.IConfiguration;
-import strata.foundation.core.inject.AbstractModule;
+import strata.foundation.guice.inject.AbstractModule;
 import strata.server.core.unitofwork.IUnitOfWork;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
 import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;

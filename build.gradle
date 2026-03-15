@@ -1,6 +1,52 @@
 project.buildDir = ".build"
 wrapper.jarFile = ".gradle/wrapper/gradle-wrapper.jar"
 
+ext {
+    spring_version = "6.2.2"
+    springboot_version = "3.4.1"
+    spring_data_jpa_version = "4.0.4"
+    spring_guice_version = "3.0.0"
+    //spring_kafka_version = "3.3.1"
+    springdoc_version = "2.8.4"
+
+    modelmapper_version = "3.2.6"
+    apache_commons_lang_version = "3.13.0"
+    jandex_version = "3.3.0"
+    c3p0_version = "0.12.0"
+    telesign_version = "2.3.0"
+    reactive_streams_version = "1.0.4"
+    //guice_version = "7.0.0"
+    //jackson_version = "2.21.1"
+    //avro_version = "1.12.1"
+    //kafka_version = "3.8.0"
+    //chronicle_queue_version = "5.26ea9"
+    hibernate_version = "6.6.4.Final"
+    log4j_version = "2.25.3"
+    //jasypt_version = "1.9.3"
+
+    //confluent_kafka_version = "3.4.0"
+    //confluent_avro_version = "8.2.0"
+
+    jakarta_persistence_version = "3.1.0"
+    jakarta_transaction_version = "2.0.1"
+    jakarta_mail_api_version = "2.1.2"
+    jakarta_mail_impl_version = "2.0.2"
+
+    //jakarta_inject_version = "2.0.1"
+    //jakarta_ws_rs_version = "4.0.0"
+    //jakarta_websocket_version = "2.3.0-M2"
+
+    junit_jupiter_version = "5.13.3"
+    junit_platform_version = "1.13.3"
+
+    major = "1"
+    minor = ".0"
+    patch = "-SNAPSHOT"
+    major = "1"
+    minor = ".0"
+    patch = "-SNAPSHOT"
+}
+
 // Configure Java toolchain for all subprojects
 subprojects {
     apply plugin: 'java'
@@ -19,14 +65,13 @@ subprojects {
     compileTestJava {
         options.release = 22
     }
-}
 
-ext {
-    springboot_version = "3.3.4"  // Updated to support Java 22
-    hibernate_version = "6.6.15.Final"  // Updated to support Java 22
-    major = "1"
-    minor = ".0"
-    patch = "-SNAPSHOT"
+//    configurations.all {
+//        resolutionStrategy {
+//            force "org.springframework.data:spring-data-jpa:$spring_data_jpa_version"
+//            force "org.springframework.data:spring-data-commons:$spring_data_jpa_version"
+//        }
+//    }
 }
 
 group 'strata.server'

@@ -39,11 +39,11 @@ publishing {
 
 dependencies {
     api "strata.foundation:strata-foundation-core:$version"
-    api 'jakarta.persistence:jakarta.persistence-api:3.1.0'
-    api 'jakarta.transaction:jakarta.transaction-api:2.0.1'
-    api 'org.modelmapper:modelmapper:3.2.0'
-    implementation 'org.apache.commons:commons-lang3:3.13.0'  // Updated for Java 22 compatibility
-    implementation 'com.telesign:telesign:2.3.0'
-    implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
-    implementation 'org.eclipse.angus:jakarta.mail:2.0.2'
+    api "jakarta.persistence:jakarta.persistence-api:$jakarta_persistence_version"
+    api "jakarta.transaction:jakarta.transaction-api:$jakarta_transaction_version"
+    api "org.modelmapper:modelmapper:$modelmapper_version"
+    implementation "org.apache.commons:commons-lang3:$apache_commons_lang_version"  // Updated for Java 22 compatibility
+    implementation "com.telesign:telesign:$telesign_version"
+    implementation "jakarta.mail:jakarta.mail-api:$jakarta_mail_api_version"
+    implementation "org.eclipse.angus:jakarta.mail:$jakarta_mail_impl_version"
 }

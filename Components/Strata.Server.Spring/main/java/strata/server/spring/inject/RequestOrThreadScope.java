@@ -9,7 +9,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 import org.springframework.web.context.request.RequestContextHolder;
-import strata.foundation.core.inject.ThreadScope;
+import strata.foundation.guice.inject.ThreadScope;
 
 public
 class RequestOrThreadScope

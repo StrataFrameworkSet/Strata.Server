@@ -5,7 +5,7 @@
 package strata.server.spring.inject;
 
 import com.google.inject.Scopes;
-import strata.foundation.core.inject.AbstractModule;
+import strata.foundation.guice.inject.AbstractModule;
 
 public
 class RequestModule

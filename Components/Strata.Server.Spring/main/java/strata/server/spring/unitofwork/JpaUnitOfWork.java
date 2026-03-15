@@ -349,7 +349,7 @@ class JpaUnitOfWork
         return
             StreamSupport
                 .stream(ids.spliterator(),false)
-                .map(id -> Pair.create(id,existsById(type,idProperty,id)))
+                .map(id -> Pair.of(id,existsById(type,idProperty,id)))
                 .collect(
                     Collectors.toMap(
                         pair -> pair.getFirst(),
@@ -494,7 +494,7 @@ class JpaUnitOfWork
         return
             Arrays
                 .stream(queryNames)
-                .map(queryName -> Pair.create(queryName,queries.containsKey(queryName)))
+                .map(queryName -> Pair.of(queryName,queries.containsKey(queryName)))
                 .collect(
                     Collectors.toMap(
                         pair -> pair.getFirst(),
