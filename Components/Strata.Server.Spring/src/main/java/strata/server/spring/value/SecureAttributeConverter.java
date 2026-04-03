@@ -2,7 +2,7 @@
 // SecureAttributeConverter.java
 //////////////////////////////////////////////////////////////////////////////
 
-package strata.server.core.mapper;
+package strata.server.spring.value;
 
 import jakarta.persistence.AttributeConverter;
 import org.jasypt.encryption.StringEncryptor;

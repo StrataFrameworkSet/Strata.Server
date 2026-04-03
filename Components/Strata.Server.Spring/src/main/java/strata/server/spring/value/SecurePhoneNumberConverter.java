@@ -2,8 +2,9 @@
 // SecurePhoneNumberConverter.java
 //////////////////////////////////////////////////////////////////////////////
 
-package strata.server.core.mapper;
+package strata.server.spring.value;
 
+import strata.foundation.core.value.EmailAddress;
 import strata.foundation.core.value.PhoneNumber;
 
 public
@@ -12,16 +13,22 @@ class SecurePhoneNumberConverter
 {
     @Override
     public String
-    convertToDatabaseColumn(PhoneNumber phoneNumber)
+    convertToDatabaseColumn(PhoneNumber attribute)
     {
-        return super.encrypt(phoneNumber.toString());
+        return
+            attribute != null
+                ? super.encrypt(attribute.toString())
+                : null;
     }
 
     @Override
     public PhoneNumber
-    convertToEntityAttribute(String s)
+    convertToEntityAttribute(String dbData)
     {
-        return PhoneNumber.of(super.decrypt(s));
+        return
+            dbData != null
+                ? PhoneNumber.of(super.decrypt(dbData))
+                : null;
     }
 }
 
