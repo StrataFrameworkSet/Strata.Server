@@ -5,10 +5,12 @@
 package strata.server.spring.value;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import strata.foundation.core.value.PersonName;
 
 import java.util.Objects;
 
+@Converter
 public
 class PersonNameConverter
     implements AttributeConverter<PersonName,String>

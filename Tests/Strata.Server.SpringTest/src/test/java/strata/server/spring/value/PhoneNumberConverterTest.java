@@ -27,22 +27,22 @@ class PhoneNumberConverterTest
     {
         return
             Stream.of(
-                Pair.create(new PhoneNumber("2355551234"),"2355551234"),
-                Pair.create(new PhoneNumber("235-555-1234"),"235-555-1234"),
-                Pair.create(new PhoneNumber("235 555 1234"),"235 555 1234"),
-                Pair.create(new PhoneNumber("235.555.1234"),"235.555.1234"),
-                Pair.create(new PhoneNumber("(235)5551234"),"(235)5551234"),
-                Pair.create(new PhoneNumber("(235)555-1234"),"(235)555-1234"),
-                Pair.create(new PhoneNumber("(235)555.1234"),"(235)555.1234"),
-                Pair.create(new PhoneNumber("(235) 555 1234"),"(235) 555 1234"),
-                Pair.create(new PhoneNumber("12355551234"),"12355551234"),
-                Pair.create(new PhoneNumber("1-235-555-1234"),"1-235-555-1234"),
-                Pair.create(new PhoneNumber("1 235 555 1234"),"1 235 555 1234"),
-                Pair.create(new PhoneNumber("1.235.555.1234"),"1.235.555.1234"),
-                Pair.create(new PhoneNumber("1(235)5551234"),"1(235)5551234"),
-                Pair.create(new PhoneNumber("1(235)555-1234"),"1(235)555-1234"),
-                Pair.create(new PhoneNumber("1(235)555.1234"),"1(235)555.1234"),
-                Pair.create(new PhoneNumber("1(235) 555 1234"),"1(235) 555 1234"));
+                Pair.of(new PhoneNumber("2355551234"),"2355551234"),
+                Pair.of(new PhoneNumber("235-555-1234"),"235-555-1234"),
+                Pair.of(new PhoneNumber("235 555 1234"),"235 555 1234"),
+                Pair.of(new PhoneNumber("235.555.1234"),"235.555.1234"),
+                Pair.of(new PhoneNumber("(235)5551234"),"(235)5551234"),
+                Pair.of(new PhoneNumber("(235)555-1234"),"(235)555-1234"),
+                Pair.of(new PhoneNumber("(235)555.1234"),"(235)555.1234"),
+                Pair.of(new PhoneNumber("(235) 555 1234"),"(235) 555 1234"),
+                Pair.of(new PhoneNumber("12355551234"),"12355551234"),
+                Pair.of(new PhoneNumber("1-235-555-1234"),"1-235-555-1234"),
+                Pair.of(new PhoneNumber("1 235 555 1234"),"1 235 555 1234"),
+                Pair.of(new PhoneNumber("1.235.555.1234"),"1.235.555.1234"),
+                Pair.of(new PhoneNumber("1(235)5551234"),"1(235)5551234"),
+                Pair.of(new PhoneNumber("1(235)555-1234"),"1(235)555-1234"),
+                Pair.of(new PhoneNumber("1(235)555.1234"),"1(235)555.1234"),
+                Pair.of(new PhoneNumber("1(235) 555 1234"),"1(235) 555 1234"));
     }
 
     @BeforeEach

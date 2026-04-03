@@ -5,8 +5,10 @@
 package strata.server.spring.value;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import strata.foundation.core.value.PhoneNumber;
 
+@Converter
 public
 class PhoneNumberConverter
     implements AttributeConverter<PhoneNumber,String>

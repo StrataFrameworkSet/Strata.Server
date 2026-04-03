@@ -28,9 +28,9 @@ class EmailAddressConverterTest
     {
         return
             Stream.of(
-                Pair.create(new EmailAddress("abc@xyz.com"),"abc@xyz.com"),
-                Pair.create(new EmailAddress("abc.def@xxyyzz.org"),"abc.def@xxyyzz.org"),
-                Pair.create(new EmailAddress("john.liebenau@ayuda.software"),"john.liebenau@ayuda.software"));
+                Pair.of(new EmailAddress("abc@xyz.com"),"abc@xyz.com"),
+                Pair.of(new EmailAddress("abc.def@xxyyzz.org"),"abc.def@xxyyzz.org"),
+                Pair.of(new EmailAddress("john.liebenau@ayuda.software"),"john.liebenau@ayuda.software"));
     }
 
     @BeforeEach

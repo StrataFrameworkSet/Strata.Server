@@ -5,8 +5,10 @@
 package strata.server.spring.value;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import strata.foundation.core.value.EmailAddress;
 
+@Converter
 public
 class EmailAddressConverter
     implements AttributeConverter<EmailAddress,String>

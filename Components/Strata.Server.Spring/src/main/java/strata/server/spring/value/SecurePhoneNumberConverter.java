@@ -4,9 +4,10 @@
 
 package strata.server.spring.value;
 
-import strata.foundation.core.value.EmailAddress;
+import jakarta.persistence.Converter;
 import strata.foundation.core.value.PhoneNumber;
 
+@Converter
 public
 class SecurePhoneNumberConverter
     extends SecureAttributeConverter<PhoneNumber>

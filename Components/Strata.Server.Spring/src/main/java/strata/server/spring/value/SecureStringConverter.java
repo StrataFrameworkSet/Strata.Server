@@ -4,6 +4,9 @@
 
 package strata.server.spring.value;
 
+import jakarta.persistence.Converter;
+
+@Converter
 public
 class SecureStringConverter
     extends SecureAttributeConverter<String>

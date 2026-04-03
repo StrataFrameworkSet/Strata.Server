@@ -5,10 +5,11 @@
 package strata.server.spring.value;
 
 import jakarta.persistence.AttributeConverter;
-import org.jasypt.encryption.StringEncryptor;
+import jakarta.persistence.Converter;import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
 
+@Converter
 public abstract
 class SecureAttributeConverter<E>
     implements AttributeConverter<E,String>
