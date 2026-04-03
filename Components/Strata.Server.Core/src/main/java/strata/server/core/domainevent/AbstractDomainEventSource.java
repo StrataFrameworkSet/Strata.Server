@@ -17,27 +17,18 @@ class AbstractDomainEventSource<
 {
     private final Set<O> observers;
 
-    /*************************************************************************
-     * Creates  a new instance of {@code AbstractDomainEventSource<S,E,O>}.
-     */
     protected
     AbstractDomainEventSource()
     {
         observers = new HashSet<O>();
     }
 
-    /*************************************************************************
-     * Creates  a new instance of {@code AbstractDomainEventSource<S,E,O>}.
-     */
     protected
     AbstractDomainEventSource(AbstractDomainEventSource<S,E,O> other)
     {
         observers = new HashSet<O>(other.getObservers());
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public S
     attachFrom(S other)
@@ -46,9 +37,6 @@ class AbstractDomainEventSource<
         return getSelf();
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public S
     attach(Set<O> observers)
@@ -57,9 +45,6 @@ class AbstractDomainEventSource<
         return getSelf();
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public S
     attach(O observer)
@@ -68,9 +53,6 @@ class AbstractDomainEventSource<
         return getSelf();
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public S
     detach(O observer)
@@ -79,9 +61,6 @@ class AbstractDomainEventSource<
         return getSelf();
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public Set<O>
     getObservers()
@@ -89,9 +68,6 @@ class AbstractDomainEventSource<
         return Collections.unmodifiableSet(observers);
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public boolean
     has(O observer)
@@ -99,9 +75,6 @@ class AbstractDomainEventSource<
         return observers.contains(observer);
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public S
     notify(E event)
@@ -113,13 +86,9 @@ class AbstractDomainEventSource<
         return getSelf();
     }
 
-    /*************************************************************************
-     * Returns a reference to this.
-     *
-     * @return reference to this for method chaining
-     */
-    protected abstract S
-    getSelf();
+    @SuppressWarnings("unchecked")
+    protected S
+    getSelf() { return (S)this; }
 }
 
 //////////////////////////////////////////////////////////////////////////////

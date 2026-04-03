@@ -15,25 +15,12 @@ class AbstractDomainEvent<S>
     private final Instant timestamp;
     private final S       source;
 
-    /*************************************************************************
-     * Creates a new instance of {@code AbstractDomainEvent<S>}.
-     *
-     * @param nm  event name
-     * @param src event source
-     */
     protected
     AbstractDomainEvent(String nm,S src)
     {
         this(nm,null,src);
     }
 
-    /*************************************************************************
-     * Creates a new instance of {@code AbstractDomainEvent<S>}.
-     *
-     * @param nm  event name
-     * @param correlId correlation id
-     * @param src event source
-     */
     protected
     AbstractDomainEvent(String nm,String correlId,S src)
     {
@@ -43,9 +30,6 @@ class AbstractDomainEvent<S>
         source = src;
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public String
     getName()
@@ -53,9 +37,6 @@ class AbstractDomainEvent<S>
         return name;
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public String
     getCorrelationId()
@@ -63,10 +44,6 @@ class AbstractDomainEvent<S>
         return correlationId;
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     * @return
-     */
     @Override
     public Instant
     getTimestamp()
@@ -74,9 +51,6 @@ class AbstractDomainEvent<S>
         return timestamp;
     }
 
-    /*************************************************************************
-     * {@inheritDoc}
-     */
     @Override
     public S
     getSource()

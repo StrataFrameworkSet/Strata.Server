@@ -2,6 +2,8 @@ project.buildDir = ".build"
 wrapper.jarFile = ".gradle/wrapper/gradle-wrapper.jar"
 
 ext {
+    strata_foundation_version = "1.0-SNAPSHOT"
+
     spring_version = "6.2.2"
     springboot_version = "3.4.1"
     spring_data_jpa_version = "4.0.4"
@@ -31,25 +33,32 @@ ext {
     jakarta_transaction_version = "2.0.1"
     jakarta_mail_api_version = "2.1.2"
     jakarta_mail_impl_version = "2.0.2"
+    jakarta_websocket_version = "2.3.0-M2"
 
+    eclipse_websocket_version = "11.0.26"
     //jakarta_inject_version = "2.0.1"
     //jakarta_ws_rs_version = "4.0.0"
-    //jakarta_websocket_version = "2.3.0-M2"
 
     junit_jupiter_version = "5.13.3"
     junit_platform_version = "1.13.3"
 
     major = "1"
-    minor = ".0"
-    patch = "-SNAPSHOT"
-    major = "1"
-    minor = ".0"
-    patch = "-SNAPSHOT"
+    minor = "0"
+    patch = "SNAPSHOT"
+    separator1 = "."
+    separator2 = "-"
+
+    component_version = "$major$separator1$minor$separator2$patch"
 }
+group 'strata.server'
+version "$component_version"
 
 // Configure Java toolchain for all subprojects
 subprojects {
     apply plugin: 'java'
+
+    group 'strata.server'
+    version "$component_version"
 
     java {
         toolchain {
@@ -65,14 +74,5 @@ subprojects {
     compileTestJava {
         options.release = 22
     }
-
-//    configurations.all {
-//        resolutionStrategy {
-//            force "org.springframework.data:spring-data-jpa:$spring_data_jpa_version"
-//            force "org.springframework.data:spring-data-commons:$spring_data_jpa_version"
-//        }
-//    }
 }
 
-group 'strata.server'
-version "$major$minor$patch"

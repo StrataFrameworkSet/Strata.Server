@@ -4,14 +4,11 @@ plugins {
 
 
 sourceSets {
-    main.java.srcDirs = ['main/java']
-    main.resources.srcDirs = ['main/resources']
+    main.java.srcDirs = ['src/main/java']
+    main.resources.srcDirs = ['src/main/resources']
 }
 
 apply plugin: 'maven-publish'
-
-group 'strata.server'
-version "$major$minor$patch"
 
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
@@ -39,8 +36,8 @@ publishing {
 
 dependencies {
     api project(":Components:Strata.Server.Core")
-    api "strata.foundation:strata-foundation-spring:$version"
-    api "strata.foundation:strata-foundation-guice:$version"
+    api "strata.foundation:strata-foundation-spring:$strata_foundation_version"
+    api "strata.foundation:strata-foundation-guice:$strata_foundation_version"
     api "org.springframework.boot:spring-boot-starter-web:$springboot_version"
     api "org.springframework.boot:spring-boot-starter-webflux:$springboot_version"
     api "org.springframework.boot:spring-boot-starter-data-jpa:$springboot_version"

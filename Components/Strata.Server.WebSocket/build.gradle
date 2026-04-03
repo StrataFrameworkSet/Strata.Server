@@ -2,10 +2,11 @@ plugins {
     id 'java-library'
 }
 
-
 sourceSets {
     main.java.srcDirs = ['src/main/java']
     main.resources.srcDirs = ['src/main/resources']
+    test.java.srcDirs = ['src/unused']
+    test.resources.srcDirs = ['src/unused']
 }
 
 apply plugin: 'maven-publish'
@@ -16,8 +17,8 @@ task sourceJar(type: Jar) {
 
 publishing {
     publications {
-        StrataServerCore(MavenPublication) {
-            artifactId = 'strata-server-core'
+        StrataServerWebSocket(MavenPublication) {
+            artifactId = 'strata-server-websocket'
             from components.java
 
             repositories {
@@ -35,12 +36,7 @@ publishing {
 }
 
 dependencies {
-    api "strata.foundation:strata-foundation-core:$strata_foundation_version"
-    api "jakarta.persistence:jakarta.persistence-api:$jakarta_persistence_version"
-    api "jakarta.transaction:jakarta.transaction-api:$jakarta_transaction_version"
-    api "org.modelmapper:modelmapper:$modelmapper_version"
-    implementation "org.apache.commons:commons-lang3:$apache_commons_lang_version"  // Updated for Java 22 compatibility
-    implementation "com.telesign:telesign:$telesign_version"
-    implementation "jakarta.mail:jakarta.mail-api:$jakarta_mail_api_version"
-    implementation "org.eclipse.angus:jakarta.mail:$jakarta_mail_impl_version"
+    api project(':Components:Strata.Server.Core')
+    api "jakarta.websocket:jakarta.websocket-api:$jakarta_websocket_version"
+    implementation "org.eclipse.jetty.websocket:websocket-jakarta-server:$eclipse_websocket_version"
 }

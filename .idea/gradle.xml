@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/Components" />
             <option value="$PROJECT_DIR$/Components/Strata.Server.Core" />
             <option value="$PROJECT_DIR$/Components/Strata.Server.Spring" />
+            <option value="$PROJECT_DIR$/Components/Strata.Server.WebSocket" />
             <option value="$PROJECT_DIR$/Tests" />
             <option value="$PROJECT_DIR$/Tests/Strata.Server.CoreTest" />
             <option value="$PROJECT_DIR$/Tests/Strata.Server.SpringTest" />

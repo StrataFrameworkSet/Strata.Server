@@ -4,12 +4,9 @@ plugins {
 
 
 sourceSets {
-    test.java.srcDirs = ['test/java']
-    test.resources.srcDirs = ['test/resources']
+    test.java.srcDirs = ['src/test/java']
+    test.resources.srcDirs = ['src/test/resources']
 }
-
-group 'strata.server'
-version '1.0-SNAPSHOT'
 
 dependencies {
     testImplementation project(':Components:Strata.Server.Spring')

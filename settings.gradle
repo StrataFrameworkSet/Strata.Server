@@ -45,3 +45,4 @@ include 'Tests:Strata.Server.SpringTest'
 include 'Tests:Strata.Server.TestSuite'
 
 
+include 'Components:Strata.Server.WebSocket'

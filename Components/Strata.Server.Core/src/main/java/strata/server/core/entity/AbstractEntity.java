@@ -86,7 +86,8 @@ class AbstractEntity<K extends Serializable,E>
         return itsLastModified;
     }
 
-    protected abstract E
-    getSelf();
+    @SuppressWarnings("unchecked")
+    protected E
+    getSelf() { return (E)this; }
 }
 //////////////////////////////////////////////////////////////////////////////
