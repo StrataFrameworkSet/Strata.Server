@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Tests/Strata.Server.SpringTest/Strata.Server.Tests.Strata.Server.SpringTest.iml" filepath="$PROJECT_DIR$/.idea/modules/Tests/Strata.Server.SpringTest/Strata.Server.Tests.Strata.Server.SpringTest.iml" />
+    </modules>
+  </component>
+</project>
