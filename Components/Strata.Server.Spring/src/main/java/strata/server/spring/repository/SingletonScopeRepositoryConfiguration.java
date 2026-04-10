@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import strata.foundation.core.configuration.IConfiguration;
+import strata.foundation.spring.inject.SingletonScoped;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
 import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
@@ -23,7 +24,7 @@ public
 class SingletonScopeRepositoryConfiguration
 {
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public LocalContainerEntityManagerFactoryBean
     localContainerEntityManagerFactoryBean(IConfiguration configuration)
     {
@@ -33,7 +34,7 @@ class SingletonScopeRepositoryConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public ISpringUnitOfWorkManager
     unitOfWorkManager(JpaUnitOfWork unitOfWork)
     {
@@ -41,7 +42,7 @@ class SingletonScopeRepositoryConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public JpaUnitOfWork
     unitOfWork(EntityManagerFactory factory)
     {
@@ -49,7 +50,7 @@ class SingletonScopeRepositoryConfiguration
     }
 
     @Bean
-    @Scope("singleton")
+    @SingletonScoped
     public IUnitOfWorkSynchronizationManager
     synchronizer()
     {

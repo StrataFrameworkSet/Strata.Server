@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.annotation.RequestScope;
 import strata.foundation.core.configuration.IConfiguration;
+import strata.foundation.spring.inject.RequestScoped;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
 import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
@@ -23,7 +23,7 @@ public
 class RequestScopeRepositoryConfiguration
 {
     @Bean
-    @RequestScope
+    @RequestScoped
     public LocalContainerEntityManagerFactoryBean
     localContainerEntityManagerFactoryBean(IConfiguration configuration)
     {
@@ -33,7 +33,7 @@ class RequestScopeRepositoryConfiguration
     }
 
     @Bean
-    @RequestScope
+    @RequestScoped
     public ISpringUnitOfWorkManager
     unitOfWorkManager(JpaUnitOfWork unitOfWork)
     {
@@ -41,7 +41,7 @@ class RequestScopeRepositoryConfiguration
     }
 
     @Bean
-    @RequestScope
+    @RequestScoped
     public JpaUnitOfWork
     unitOfWork(EntityManagerFactory factory)
     {
@@ -49,7 +49,7 @@ class RequestScopeRepositoryConfiguration
     }
 
     @Bean
-    @RequestScope
+    @RequestScoped
     public IUnitOfWorkSynchronizationManager
     synchronizer()
     {
