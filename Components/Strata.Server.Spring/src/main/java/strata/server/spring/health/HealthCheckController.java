@@ -44,7 +44,7 @@ class HealthCheckController
      * @return 200 OK if the process is alive
      */
     @GetMapping(
-        value    = "/live",
+        value    = "/liveness",
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String,Object>>
     liveness()
@@ -67,7 +67,7 @@ class HealthCheckController
      * @return 200 OK if ready; 503 Service Unavailable otherwise
      */
     @GetMapping(
-        value    = "/ready",
+        value    = "/readiness",
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String,Object>>
     readiness()
