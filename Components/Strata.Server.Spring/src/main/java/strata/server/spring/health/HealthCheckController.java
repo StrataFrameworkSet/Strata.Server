@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/health")
+@RequestMapping("${strata.health.base-path:/health}")
 public
 class HealthCheckController
 {
