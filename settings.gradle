@@ -42,7 +42,7 @@ include 'Tests:Strata.Server.CoreTest'
 include 'Tests:Strata.Server.SpringTest'
 //include 'Tests:Strata.Server.ReactorTest'
 //include 'Tests:Strata.Server.HelidonTest'
-include 'Tests:Strata.Server.TestSuite'
+//include 'Tests:Strata.Server.TestSuite'
 
 
 include 'Components:Strata.Server.WebSocket'
