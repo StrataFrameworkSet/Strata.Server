@@ -95,9 +95,10 @@ class StringMapConverter
     private static boolean
     isJsonPrimitive(Object value)
     {
-        return value instanceof String
-            || value instanceof Number
-            || value instanceof Boolean;
+        return
+            value instanceof String ||
+            value instanceof Number ||
+            value instanceof Boolean;
     }
 }
 
