@@ -62,17 +62,17 @@ subprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(22)
+            languageVersion = JavaLanguageVersion.of(23)
             vendor = JvmVendorSpec.AMAZON
         }
     }
 
     compileJava {
-        options.release = 22
+        options.release = 23
     }
 
     compileTestJava {
-        options.release = 22
+        options.release = 23
     }
 }
 

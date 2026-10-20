@@ -39,7 +39,7 @@ dependencies {
     api "jakarta.persistence:jakarta.persistence-api:$jakarta_persistence_version"
     api "jakarta.transaction:jakarta.transaction-api:$jakarta_transaction_version"
     api "org.modelmapper:modelmapper:$modelmapper_version"
-    implementation "org.apache.commons:commons-lang3:$apache_commons_lang_version"  // Updated for Java 22 compatibility
+    implementation "org.apache.commons:commons-lang3:$apache_commons_lang_version"  // Updated for Java 23 compatibility
     implementation "com.telesign:telesign:$telesign_version"
     implementation "jakarta.mail:jakarta.mail-api:$jakarta_mail_api_version"
     implementation "org.eclipse.angus:jakarta.mail:$jakarta_mail_impl_version"

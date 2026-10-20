@@ -44,7 +44,7 @@ dependencies {
     api "org.springframework.boot:spring-boot-starter-data-jpa:$springboot_version"
     api "org.springframework.boot:spring-boot-autoconfigure:$springboot_version"
     //api "org.springframework.data:spring-data-jpa:$spring_data_jpa_version"
-    api "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdoc_version"  // Updated for Java 22 compatibility
+    api "org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdoc_version"  // Updated for Java 23 compatibility
     api "org.springframework.guice:spring-guice:$spring_guice_version"
     //api "jakarta.inject:jakarta.inject-api:$jakarta_inject_version"
     api "io.smallrye:jandex:$jandex_version"
