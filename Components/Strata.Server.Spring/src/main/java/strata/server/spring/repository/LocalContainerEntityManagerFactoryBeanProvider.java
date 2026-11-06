@@ -5,9 +5,10 @@
 package strata.server.spring.repository;
 
 import com.google.inject.Provider;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import jakarta.inject.Inject;
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
@@ -52,18 +53,46 @@ class LocalContainerEntityManagerFactoryBeanProvider
     protected DataSource
     getDataSource(IConfiguration configuration)
     {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        HikariConfig config = new HikariConfig();
 
-        dataSource.setDriverClassName(
+        config.setDriverClassName(
             configuration.getProperty("spring.datasource.driver-class-name"));
-        dataSource.setUrl(
+        config.setJdbcUrl(
             configuration.getProperty("spring.datasource.url"));
-        dataSource.setUsername(
+        config.setUsername(
             configuration.getProperty("spring.datasource.username"));
-        dataSource.setPassword(
+        config.setPassword(
             configuration.getProperty("spring.datasource.password"));
 
-        return dataSource;
+        if (configuration.hasLongProperty("spring.datasource.hikari.maximum-pool-size"))
+            config.setMaximumPoolSize(
+                configuration
+                    .getLongProperty("spring.datasource.hikari.maximum-pool-size")
+                    .intValue());
+
+        if (configuration.hasLongProperty("spring.datasource.hikari.minimum-idle"))
+            config.setMinimumIdle(
+                configuration
+                    .getLongProperty("spring.datasource.hikari.minimum-idle")
+                    .intValue());
+
+        if (configuration.hasLongProperty("spring.datasource.hikari.connection-timeout"))
+            config.setConnectionTimeout(
+                configuration.getLongProperty("spring.datasource.hikari.connection-timeout"));
+
+        if (configuration.hasLongProperty("spring.datasource.hikari.idle-timeout"))
+            config.setIdleTimeout(
+                configuration.getLongProperty("spring.datasource.hikari.idle-timeout"));
+
+        if (configuration.hasLongProperty("spring.datasource.hikari.max-lifetime"))
+            config.setMaxLifetime(
+                configuration.getLongProperty("spring.datasource.hikari.max-lifetime"));
+
+        if (configuration.hasProperty("spring.datasource.hikari.pool-name"))
+            config.setPoolName(
+                configuration.getProperty("spring.datasource.hikari.pool-name"));
+
+        return new HikariDataSource(config);
     }
 
     protected HibernateJpaVendorAdapter

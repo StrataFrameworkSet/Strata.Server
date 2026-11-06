@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import strata.foundation.core.configuration.IConfiguration;
 import strata.foundation.spring.inject.RequestScoped;
+import strata.foundation.spring.inject.SingletonScoped;
 import strata.server.core.unitofwork.IUnitOfWorkSynchronizationManager;
 import strata.server.spring.unitofwork.ISpringUnitOfWorkManager;
 import strata.server.spring.unitofwork.JpaUnitOfWork;
@@ -23,7 +24,7 @@ public
 class RequestScopeRepositoryConfiguration
 {
     @Bean
-    @RequestScoped
+    @SingletonScoped
     public LocalContainerEntityManagerFactoryBean
     localContainerEntityManagerFactoryBean(IConfiguration configuration)
     {
