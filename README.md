@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Version](https://img.shields.io/badge/version-1.0--SNAPSHOT-orange.svg)]()
+[![Version](https://img.shields.io/badge/version-1.0.0--SNAPSHOT-orange.svg)]()
 
 Server-side components and utilities for building robust, scalable enterprise server applications in the Strata Framework Set. This library provides core server abstractions, Spring Framework integration, ORM mappings, and enterprise patterns for building high-performance server applications.
 
@@ -102,18 +102,20 @@ Spring Framework integration component that extends server core abstractions wit
 
 ## Installation
 
+The current development version is **1.0.0-SNAPSHOT**, built against Strata.Foundation **1.0.0** (see [Versioning](#versioning)).
+
 ### Gradle
 
 Add the following dependencies to your `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation 'strata.server:strata-server-core:1.0-SNAPSHOT'
-    implementation 'strata.server:strata-server-spring:1.0-SNAPSHOT'
+    implementation 'strata.server:strata-server-core:1.0.0-SNAPSHOT'
+    implementation 'strata.server:strata-server-spring:1.0.0-SNAPSHOT'
     
     // For testing
-    testImplementation 'strata.server:strata-server-core-test:1.0-SNAPSHOT'
-    testImplementation 'strata.server:strata-server-spring-test:1.0-SNAPSHOT'
+    testImplementation 'strata.server:strata-server-core-test:1.0.0-SNAPSHOT'
+    testImplementation 'strata.server:strata-server-spring-test:1.0.0-SNAPSHOT'
 }
 ```
 
@@ -126,25 +128,25 @@ Add the following dependencies to your `pom.xml`:
     <dependency>
         <groupId>strata.server</groupId>
         <artifactId>strata-server-core</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>strata.server</groupId>
         <artifactId>strata-server-spring</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </dependency>
     
     <!-- For testing -->
     <dependency>
         <groupId>strata.server</groupId>
         <artifactId>strata-server-core-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>strata.server</groupId>
         <artifactId>strata-server-spring-test</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <scope>test</scope>
     </dependency>
 </dependencies>
@@ -166,6 +168,19 @@ repositories {
     }
 }
 ```
+
+GitHub Packages requires authentication even for downloads; use a personal access token with the `read:packages` scope.
+
+## Versioning
+
+| | Development snapshot | Release |
+|---|---|---|
+| Maven jars | `X.Y.0-SNAPSHOT` (e.g. `1.0.0-SNAPSHOT`) | `X.Y.0` (e.g. `1.0.0`) |
+
+- `.github/workflows/build-pipeline.yml` runs on `development` and `release-*`. Its stages are commit (build and test), integration, acceptance, and deploy. Deploy publishes the snapshot jars to GitHub Packages. Integration and acceptance are placeholders until `Strata.Server.TestSuite` is enabled.
+- A release is made on a `release-X.Y` branch:
+  - its last snapshot is promoted to the release version with `strata-server-promote.ps1` / `strata-server-promote.sh` (run with `--dry-run` / `-DryRun` first)
+  - `development` then moves on to the next minor version
 
 ## Usage
 
