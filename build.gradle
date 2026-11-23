@@ -2,7 +2,7 @@ project.buildDir = ".build"
 wrapper.jarFile = ".gradle/wrapper/gradle-wrapper.jar"
 
 ext {
-    strata_foundation_version = "1.0-SNAPSHOT"
+    strata_foundation_version = "1.0.0"
 
     spring_version = "6.2.2"
     springboot_version = "3.4.1"
@@ -43,22 +43,18 @@ ext {
     junit_platform_version = "1.13.3"
 
     major = "1"
-    minor = "0"
-    patch = "SNAPSHOT"
-    separator1 = "."
-    separator2 = "-"
-
-    component_version = "$major$separator1$minor$separator2$patch"
+    minor = ".0"
+    patch = ".0-SNAPSHOT"
 }
 group 'strata.server'
-version "$component_version"
+version "$major$minor$patch"
 
 // Configure Java toolchain for all subprojects
 subprojects {
     apply plugin: 'java'
 
     group 'strata.server'
-    version "$component_version"
+    version "$major$minor$patch"
 
     java {
         toolchain {
